@@ -1,0 +1,29 @@
+\begin{figure}
+\centering
+\begin{tikzpicture}
+\tikzstyle{main}=[circle, minimum size = 7mm, thick, draw =black!80, node distance = 10mm]
+\tikzstyle{connect}=[-latex, thick, gray]
+\tikzstyle{box}=[rectangle, draw=black!100]
+\tikzstyle{V3}=[draw =black!80,circle,minimum size = 12mm, thick,node distance = 20mm,lavander,bottom color=lavander!30,top color= white, text=violet]
+\tikzstyle{V5}=[draw =black!80,circle,minimum size = 12mm, thick,node distance = 20mm,burntblue,bottom color=burntblue!30,top color= white, text=violet]
+\tikzstyle{V4}=[draw =black!80,circle,minimum size = 8mm, thick,node distance = 12mm,burntorange,bottom color=burntorange!30,top color= white, text=violet]
+\node[V3] (theta)  {$X_{n-1}$ };
+\node[V5] (theta2) [below=of theta] {$Y_{k-1}$ };
+\node[V3] (z) [right=of theta] {$X_n$};
+\node[V5] (z3) [below=of z] {$Y_n$};
+\node[V3] (w) [right=of z] {$X_{n + 1}$};
+\node[V5] (w3) [below=of w] {$Y_{n + 1}$};
+             \path  (theta) edge [connect] (z)
+                       (theta) edge [connect] (z3)
+                       (z) edge [connect] (w)
+                       (z) edge [connect] (z3)
+                       (z) edge [connect] (w3)
+                       (w) edge [connect] (w3);
+                       \draw (theta)  node[below,label={[xshift=1.5cm]$\scriptstyle \hd{n-1}(X_{n-1},\cdot)$}] {}(z);
+                       \draw (z)  node[below,label={[xshift=1.5cm]$\scriptstyle \hd{n}(X_n,\cdot)$}] {}(w);
+                       \draw (z)  node[below,label={[yshift=-2.6cm,xshift=-1.1cm]{\rotatebox{-45}{$\scriptstyle \md{n-1}(X_{n-1},X_{n},\cdot)$}}}] {}(z3);
+                       \draw (w)  node[below,label={[yshift=-2.6cm,xshift=-1cm]{\rotatebox{-45}{$\scriptstyle \md{n}(X_n,X_{n+1},\cdot)$}}}] {}(w3);
+\end{tikzpicture}
+\caption{Graphical-model representation of the model presented in Example~\ref{ex:state-space:models}.}
+\label{fig:graphical:model}
+\end{figure}

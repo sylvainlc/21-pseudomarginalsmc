@@ -1,0 +1,209 @@
+%% Commands
+
+\newcommandx{\accprob}[1][1=]{
+\ifthenelse{\equal{#1}{}}{\alpha^{\mbox{\footnotesize{\textsf{R}}}}}{\alpha^{\mbox{\footnotesize{\textsf{MH}}}}}
+}
+%\newcommandx{\accprob}[1][1=]{
+%\ifthenelse{\equal{#1}{}}{\alpha^{\mbox{\tiny{\textsf{AR}}}}}{\alpha^{\mbox{\tiny{\textsf{MH}}}}}
+%}
+\newcommandx{\accprobext}[1][1=]{
+\ifthenelse{\equal{#1}{}}{\bar{\alpha}^{\mbox{\footnotesize{\textsf{R}}}}}{\bar{\alpha}^{\mbox{\footnotesize{\textsf{MH}}}}}
+}
+\newcommandx{\addf}[2][1=]{
+\ifthenelse{\equal{#1}{}}{\termletter_{#2}}{\bar{h}_{#2 | #1}}
+}
+%\newcommandx{\addf}[2][1=]{
+%\ifthenelse{\equal{#1}{}}{\termletter_{#2}}{\bar{h}_{#1, #2}}
+%}
+\newcommand{\adjfuncforward}[1]{\vartheta_{#1}}
+\newcommand{\bi}[3]{J_{#1}^{(#2, #3)}}
+\newcommandx{\bkmod}[2][1=]{ 
+\ifthenelse{\equal{#1}{}}
+{\kernel{B}_{#2}^\precpar}
+{\kernel{B}_{#2}^\precpar}
+}
+\newcommandx{\bkw}[2][1=]{ 
+\ifthenelse{\equal{#1}{}}
+{\kernel{B}_{#2}}
+{\kernel{B}_{#2}}
+}
+\newcommand{\bmf}[1]{\mathsf{F}(#1)}
+%\newcommand{\bmaf}[1]{\mathsf{S}(#1)}
+\newcommand{\bmaf}[1]{\mathsf{A}(#1)}
+
+\newcommand{\calF}[2]{\mathcal{F}_{#1}^{#2}}
+\newcommand{\calG}[2]{\mathcal{G}_{#1}^{#2}}
+\newcommand{\cat}{\mathsf{cat}}
+\newcommand{\cbound}{c(\sigma_\pm)}
+\newcommand{\cboundtd}{\tilde{c}(\sigma_\pm)}
+\newcommand{\cev}[1]{\reflectbox{\ensuremath{\vec{\reflectbox{\ensuremath{#1}}}}}}
+\newcommand{\cond}{\mid}
+\newcommand{\dbound}{d(\sigma_\pm)}
+\newcommand{\dlim}{\overset{\mathcal{D}}{\longrightarrow}}
+\newcommand{\eg}{\emph{e.g.}}
+\newcommand{\epart}[2]{\ensuremath{\xi_{#1}^{#2}}}
+\newcommand{\eqdef}{\coloneqq}
+\newcommand{\ewght}[2]{\ensuremath{\omega_{#1}^{#2}}}
+\newcommand{\fk}[2]{\mathbf{F}_{#1 | #2}}
+\newcommand{\ftd}[1]{\tilde{f}_{#1}}
+\newcommand{\hd}[1]{q_{#1}} 
+\newcommand{\hk}{\kernel{Q}}
+\newcommand{\ie}{\emph{i.e.}}
+\newcommand{\im}{\operatorname{i}}
+\newcommand{\incrementalvar}{\delta}
+\newcommand{\ind}[2]{I_{#1}^{#2}}
+\newcommand{\init}{\nu}
+%\newcommand{\initwgtfunc}{\frac{\rmd \chi}{\rmd \nu}}
+%\newcommand{\initwgtfunc}{\rmd \chi / \rmd \nu}
+\newcommand{\initwgtfunc}{w_{-1}}
+\newcommand{\intvect}[2]{\llbracket #1, #2 \rrbracket}
+\newcommandx{\K}[1][1=]{\ifthenelse{\equal{#1}{}}{{\kletter}}{{M^{#1}}}}
+\newcommand{\kernel}[1]{\mathbf{#1}}
+\newcommand{\kissforward}[3][]
+{\ifthenelse{\equal{#1}{}}{p_{#2}}
+{\ifthenelse{\equal{#1}{fully}}{p^{\star}_{#2}}
+{\ifthenelse{\equal{#1}{smooth}}{\tilde{r}_{#2}}{\mathrm{erreur}}}}}
+\newcommand{\kletter}{M}
+\newcommand{\llh}[1]{L_{#1}}
+\newcommand{\lwd}[1]{l_{#1}}
+\newcommand{\meas}[1]{\mathsf{M}(#1)}
+\newcommand{\md}[1]{g_{#1}}
+\newcommand{\mdlow}{\tau_-}
+\newcommand{\mdup}{\tau_+}
+
+\newcommand{\mk}{\kernel{G}}
+\newcommand{\N}{N}
+\newcommand{\Gaussian}{\mathrm{N}}
+%\newcommand{\Gaussian}{\mathcal{N}}
+\newcommand{\noshift}{\shiftsymbol^{\precpar}}
+\newcommand{\noteJO}[1]{{\bf \textcolor{magenta}{\underline{Note JO:} #1\\}}}
+\newcommand{\nset}{\mathbb{N}}
+\newcommand{\nsetpos}{\mathbb{N}_{> 0}}
+\newcommand{\1}{\mathbbm{1}} 
+\newcommand{\partmixt}{\pi}
+\newcommand{\parvec}{\theta}
+\newcommand{\parspace}{\Theta}
+\newcommand{\pE}{\mathbb{E}}
+\newcommand{\pP}{\mathbb{P}}
+\newcommand{\pplim}{\stackrel{\pP}{\longrightarrow}}
+\newcommandx{\post}[2][1=]{
+\ifthenelse{\equal{#1}{}}
+	{\phi_{#2}}
+	{\phi_{#2}^\N}
+}
+\newcommandx{\postmod}[2][1=]{
+\ifthenelse{\equal{#1}{}}
+	{\phi_{#2}^\precpar}
+	{\phi_{#2}^\N}
+}
+%\newcommand{\powerset}[1]{2^{#1}}
+\newcommand{\powerset}[1]{\mathcal{P}(#1)}
+\newcommand{\precpar}{\varepsilon}
+%\newcommand{\precpar}{m}
+\newcommand{\precparsp}{\mathcal{E}}
+\newcommand{\probmeas}[1]{\mathsf{M}_1(#1)}
+\newcommand{\prop}[1]{\mathbf{P}_{#1}}
+\newcommand{\propdens}[1]{p_{#1}}
+\newcommand{\retrok}{\boldsymbol{\mathcal{L}}}
+\newcommand{\retroknorm}{\bar{\boldsymbol{\mathcal{L}}}}
+\newcommand{\retrokmod}{\boldsymbol{\mathcal{L}}^\precpar}
+\newcommand{\retrokmodnorm}{\bar{\boldsymbol{\mathcal{L}}}^{\precpar}}
+\newcommand{\retrokmodmod}{\boldsymbol{\mathcal{R}}^\precpar}
+\newcommand{\retrokmodmodnorm}{\bar{\boldsymbol{\mathcal{R}}}^\precpar}
+\newcommand{\rmd}{d}
+\newcommand{\rset}{\ensuremath{\mathbb{R}}}
+\newcommand{\rsetnn}{\rset_{\geq 0}}
+\newcommand{\rsetpos}{\rset_{> 0}}
+\newcommand{\shiftbwd}{\cev{\shiftsymbol}^{\precpar}}
+\newcommand{\shiftfwd}{\vec{\shiftsymbol}^{\, \precpar}}
+\newcommand{\shiftsymbol}{\varphi}
+\newcommand{\sumwght}[2][]{%
+\ifthenelse{\equal{#1}{}}{\ensuremath{\Omega_{#2}}}{\ensuremath{\Omega_{#2}^{(#1)}}}}
+\newcommand{\sumwghthat}[2][]{%
+\ifthenelse{\equal{#1}{}}{\ensuremath{\widehat{\Omega}_{#2}}}{\ensuremath{\widehat{\Omega}_{#2}^{(#1)}}}}
+\newcommand{\tensprod}{\varotimes}
+\newcommand{\termletter}{\tilde{h}}
+\newcommandx{\tstat}[2][1=]{
+\ifthenelse{\equal{#1}{}}
+	{\tstatletter_{#2}}
+	{\tau_{#2}^{#1}}
+}
+\newcommand{\termprime}{\Delta_N^\prime}
+\newcommand{\termbis}{\Delta_N^{\prime \prime}}
+\newcommand{\tosupp}[1]{\textcolor{red}{#1}}
+\newcommand{\trmletter}{\boldsymbol{\Pi}}
+\newcommand{\trm}[1]{\trmletter_{#1}}
+\newcommand{\trmext}[1]{\bar{\trmletter}_{#1}}
+\newcommand{\tstatletter}{\kernel{T}}
+\newcommandx\tstatmod[2][1=]{
+\ifthenelse{\equal{#1}{}}
+	{\tstatletter^{\varepsilon}_{#2}}
+	{\tau^{\varepsilon}_{#2}^{#1}}
+}
+\newcommand{\ud}[1]{\uksymbol_{#1}} 
+\newcommand{\udlow}{\sigma_-}
+\newcommand{\udmod}[1]{\uksymbol^\precpar_{#1}}
+\newcommand{\udup}{\sigma_+}
+\newcommand{\uk}[1]{\mathbf{L}_{#1}}
+\newcommand{\ukest}[2]{\uksymbol_{#1} \langle #2 \rangle}
+\newcommand{\ukestvar}[1]{\varsigma_{#1}^2}
+\newcommand{\ukdist}[1]{\mathbf{R}_{#1}}
+\newcommand{\ukmod}[1]{\mathbf{L}_{#1}^\precpar}
+\newcommand{\uksymbol}{\ell}
+\newcommand{\wgtfunc}[1]{w_{#1}}
+\newcommand{\wgtfuncideal}[1]{\bar{w}_{#1}}
+\newcommand{\wgtfuncmod}[1]{w^{\varepsilon}_{#1}}
+\newcommand{\xarb}{x^\ast}
+%\newcommand{\xarb}{\hat{x}}
+\newcommand{\Xfd}{\mathcal{X}}
+\newcommand{\Xset}{\mathsf{X}}
+
+\newcommand{\Yfd}{\mathcal{Y}}
+\newcommand{\Yset}{\mathsf{Y}}
+
+
+
+\newcommand{\Zfd}{\mathcal{Z}}
+\newcommand{\zpart}[2]{\zeta_{#1}^{#2}} 
+\newcommand{\zset}{\mathbb{Z}}
+\newcommand{\Zset}{\mathsf{Z}}
+
+
+
+%\newcommand{\mdup}{\tau_+}
+%\newcommand{\mdlow}{\tau_-}
+%\newcommand{\hdlow}{\sigma_-}
+%\newcommand{\hdup}{\sigma_+}
+\newcommand{\wgtfuncext}[1]{w_{#1}}
+\newcommand{\ewghthat}[2]{\omega_{#1}^{#2}}
+\newcommandx\tstathat[2][1=]{
+\ifthenelse{\equal{#1}{}}
+	{\tstatletter_{#2}}
+	{\tau_{#2}^{#1}}
+}
+\newcommand{\M}{M}
+
+%% Colors 
+
+\definecolor{violet}{cmyk}{0.79,0.88,0,0}
+\definecolor{lavander}{cmyk}{0,0.48,0,0}
+\definecolor{burntblue}{cmyk}{0.86,0.30,0.18,0}
+\definecolor{burntorange}{cmyk}{0,0.52,1,0}
+\definecolor{burntgreen}{cmyk}{0.62,0.44,0.47,0}
+\definecolor{colorproof}{RGB}{80,93,113}
+\definecolor{lightr}{RGB}{204,0,0}
+\definecolor{palegreen}{cmyk}{0.86,0.30,0.96,0}
+
+%% Hypotheses
+
+\newcounter{hypH}
+\newenvironment{hypH}{\refstepcounter{hypH}\begin{itemize}
+\item[({\bf H\arabic{hypH}})]}{\end{itemize}}
+\newcommandx{\hypref}[2][1=]{
+\ifthenelse{\equal{#1}{}}
+{\hspace{-1mm}(\textbf{H\ref{#2}})\hspace{-1mm}}
+{\hspace{-1mm}(\textbf{H\ref{#1}--\ref{#2}})\hspace{-1mm}}
+}
+
+
+

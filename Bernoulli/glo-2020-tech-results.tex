@@ -1,0 +1,11 @@
+The following technical lemma is a straightforward adaption of \cite[Lemma~14]{olsson:westerborn:2014b} to the framework of Section~\ref{sec:preliminaries}. 
+
+\begin{lemma}
+\label{lem:generalized:lebesgue}
+Assume \hypref[assum:biased:estimate]{assum:bound:filter:pseudomarginal} and let $\kernel{\Psi}$ be some possibly unnormalised transition kernel on $\Xset_n \times \Xfd_{n + 1}$ having transition density in $\bmf{\Xfd_n \tensprod \Xfd_{n + 1}}$ with respect to some reference measure on $\Xfd_{n + 1}$. Moreover, let $(\varphi_\N)_{\N \in \nset}$ be a sequence of functions in $\bmf{\Xfd_{n + 1}}$  for which 
+\begin{itemize}
+\item[(i)] there exists $\varphi \in \bmf{\Xfd_{n + 1}}$ such that for all $x \in \Xset_{n + 1}$, $\lim_{\N \to \infty} \varphi_\N(x) = \varphi(x)$ $\pP$-a.s. and 
+\item[(ii)] there exists $c \in \rsetpos$ such that $\|\varphi \|_\infty \leq c$ for all $\N \in \nset$. 
+\end{itemize} 
+Then $\post[\N]{n} \kernel{\Psi} \varphi_\N \pplim \post{n} \kernel{\Psi} \varphi$ as $\N \to \infty$. 
+\end{lemma}

@@ -1,0 +1,329 @@
+\subsection{Convergence of pseudo-marginal PaRIS estimates}
+\label{sec:convergence:results}
+
+\subsubsection{Convergence of Algorithm~\ref{alg:pm:PaRIS}}
+\label{sec:convergence:pm:PaRIS}
+
+In \cite{olsson:westerborn:2014b}, the authors established strong consistency and asymptotic normality of the PaRIS in the framework of fully dominated general state-space HMMs and the bootstrap particle filter, \ie, in the simple case where $\adjfuncforward{n} \equiv 1$ and $\kissforward{n}{n} \equiv \hd{n}$ for all $n$. In the following we will extend these results to the considerably more general setting comprising models \eqref{eq:def:post} and the pseudo-marginal PaRIS in Algorithm~\ref{alg:pm:PaRIS}. More precisely, we will show that each weighted sample $(\epart{n}{i}, \tstat[i]{n}, \ewght{n}{i})_{i = 1}^N$, $n \in \nset$, produced by Algorithm~\ref{alg:pm:PaRIS} satisfies exponential concentration (Theorem~\ref{cor:hoeffding:tau:marginal}) and asymptotic normality (Theorem~\ref{cor:clt:pseudo:marginal:paris}) with respect to the expected additive functional $h_n$ under the \emph{skew} path model 
+$$
+\postmod{0:n}(\rmd x_{0:n}) \propto \chi(\rmd x_0) \prod_{m = 0}^{n - 1} \ukmod{m}(x_m, \rmd x_{m + 1}), \quad n \in \nset. 
+$$
+Even though these results are established along the lines of the corresponding proofs in \cite{olsson:westerborn:2014b}, it is the matter of non-trivial adaptations. As explained in Section~\ref{sec:introduction}, a random-weight particle filter (iterated pseudo-marginal forward sampling) can be viewed as a standard particle filter evolving on an extended state space comprising also the states of the auxiliary variables, and hence its convergence follows from standard SMC convergence results \cite{fearnhead2008particle}. On the contrary, since Algorithm~\ref{alg:pm:PaRIS} involves \emph{two} levels of pseudo marginalisation (with respect to both the forward-sampling and the backward-sampling operations), it cannot be described equivalently as a special instance of the original PaRIS (even in its general form given by Algorithm~\ref{alg:ideal:PaRIS}) operating on an extended space. Thus, there is no free lunch when it concerns the theoretical analysis of this scheme. Furthermore, in the case of fully dominated HMMs and when forward sampling is guided by the bootstrap filter, which was the setting in \cite{olsson:westerborn:2014b}, the conditional distribution of the particles given their ancestors (\ie, the marginal of $\rho_n$ in \eqref{eq:cond:instrumental:mixture} with respect to $x$) coincides, at any time point $n$, with the denominator of the backward kernel. Mathematically, this enables a cancellation that facilitates the analysis significantly. However, this simplification is not possible once the particle dynamics is guided by general proposal kernels, which is necessarily the case in Algorithm~\ref{alg:pm:PaRIS}. This complicates the analysis; see Remark~\ref{rem:non-trivial:extension} in supplement for further details.
+
+To be able to describe our results in full detail, we also need to introduce, for every $n \in \nset$, the skew backward Markov kernels 
+$$
+    \bkmod{n}(x_{n + 1}, \rmd x_n) \eqdef \frac{\postmod{n}(\rmd x_n) \, \udmod{n}(x_n, x_{n + 1})}{\postmod{n}[\udmod{n}(\cdot, x_{n + 1})]}
+$$
+on $\Xset_{n + 1} \times \Xfd_n$ as well as the joint law 
+\begin{equation} \label{eq:skew:backward:law}
+\tstatmod{n}(x_n, \rmd x_{0:n - 1}) \eqdef \prod_{m = 0}^{n - 1} \bkmod{m}(x_{m + 1}, \rmd x_m)
+\end{equation}
+on $\Xset_n \times \Xfd^{n - 1}$. 
+
+The analysis will be carried through under the following assumption.
+\begin{hypH}
+\label{assum:bound:filter:pseudomarginal}
+For all $n \in \nset$, the functions $\adjfuncforward{n}$ and  
+\begin{align*}
+&\wgtfuncext{n} : \Xset_n \times \Xset_{n + 1} \times \Zset_{n + 1} \ni (x_n, x_{n + 1}, z) \mapsto \frac{\ukest{n}{z}(x_n, x_{n + 1})}{\adjfuncforward{n}(x) \kissforward{n}{n}(x_n, x_{n + 1})}, \\
+&\wgtfuncmod{n} : \Xset_n \times \Xset_{n + 1} \ni (x_n, x_{n + 1}) \mapsto \frac{\udmod{n}(x_n, x_{n + 1})}{\adjfuncforward{n}(x_n) \kissforward{n}{n}(x_n, x_{n + 1})}
+\end{align*}
+are bounded. So is also $\initwgtfunc : \Xset_0 \ni x_0 \mapsto \rmd \chi / \rmd \init(x_0)$. 
+\end{hypH}
+
+%%% Hoeffding bound 
+
+\subsubsection*{Hoeffding inequality}
+
+Our first theoretical result is the following Hoeffding-type concentration inequality, which also plays a critical role for the derivation of the central limit theorem (CLT) in Theorem~\ref{cor:clt:pseudo:marginal:paris}. For every $n \in \nset$, let $\bmaf{\Xfd^n}$ denote the set of additive functionals \eqref{eq:add:func} such that $\addf{m} \in \bmf{\Xfd_m \tensprod \Xfd_{m + 1}}$ for all $m \in \intvect{0}{n - 1}$.   
+\begin{theorem}
+\label{cor:hoeffding:tau:marginal}
+Assume \hypref[assum:biased:estimate]{assum:bound:filter:pseudomarginal}. Then for every $n \in \nset$, $\precpar \in \precparsp$, $h_n \in \bmaf{\Xfd^n}$, and $\K \in \nsetpos$ there exists $(c_n, d_n) \in \rsetpos^2$ such that for all $\N \in \nsetpos$ and $\epsilon > 0$,
+$$
+\pP\left(\left| \sum_{i = 1}^\N \frac{\ewght{n}{i}}{\sumwght{n}} \tstat[i]{n} - \postmod{0:n} h_n \right| \geq \epsilon \right) \leq c_n \exp \left( - d_n \N \epsilon^2 \right).
+$$
+\end{theorem}
+
+The proof of Proposition~\ref{cor:hoeffding:tau:marginal}, which is an adaptation of the proof of \cite[Theorem~1]{olsson:westerborn:2014b}, is presented in Section~\ref{sec:proof:prop:hoeffding:tau:marginal} in the supplementary paper. Since we proceed by induction and the objective functions $(h_n)_{n \in \nset}$ are additive, it is, following \cite{olsson:westerborn:2014b}, necessary to establish the result for estimators in the form $\sum_{i = 1}^\N \ewght{n}{i} \{ f_n(\epart{n}{i}) \tstat[i]{n} + \ftd{n}(\epart{n}{i}) \} / \sumwght{n}$, where $(f_n, \ftd{n}) \in \bmf{\Xfd_n}^2$. This is done in Proposition~\ref{prop:hoeffding:tau:marginal} in the supplement, and Theorem \ref{cor:hoeffding:tau:marginal} follows as a corollary of that result. 
+
+The previous bound describes the pointwise convergence of the estimator delivered by Algorithm~\ref{alg:pm:PaRIS} as $\N$ grows for $n$ fixed, and here no attempt has been made to obtain a bound that is uniform in $n$. As we shall see shortly, in Theorem~\ref{thm:variance:bound}, the numerical stability of the algorithm can instead be established by bounding the asymptotic variance of the estimator. Finally, note that the previous bound implies that the estimator $\sum_{i = 1}^\N \ewght{n}{i} \tstat[i]{n} / \sumwght{n}$ tends $\pP$-a.s. to $\postmod{0:n} h_n$ as $\N$ tends to infinity. 
+
+%%%% CLT 
+
+\subsubsection*{Central limit theorem}
+
+We now focus on the asymptotic properties of Algorithm~\ref{alg:pm:PaRIS} and furnish, in Theorem~\ref{cor:clt:pseudo:marginal:paris} below, this scheme with a CLT. On the basis of this result, the stochastic stability of the algorithm is expressed by establishing, in Theorem~\ref{thm:variance:bound}, an $\mathcal{O}(n)$ bound on the asymptotic variances. In order to be able to state these results accurately, we need some additional notation. First, let 
+ for $(x_n, x_{n + 1}) \in \Xset_n \times \Xset_{n + 1}$, 
+\begin{multline} \label{eq:def:ukestvar}
+\ukestvar{n}(x_n, x_{n + 1}) \eqdef 
+\frac{1}{\wgtfuncmod{n}(x_n, x_{n + 1})} \int \{ \wgtfunc{n}(x_n, x_{n + 1}, z) - \wgtfuncmod{n}(x_n, x_{n + 1}) \}^2 \, \ukdist{n}(x_n, x_{n + 1}, \rmd z)
+\end{multline}
+denote the conditional relative variance of the (random) weight $\ewght{n + 1}{i}$ given $\epart{n}{\ind{n}{i}} = x_n$ and $\epart{n + 1}{i}= x_{n + 1}$. In addition, for each $n \in \nset$ and $m \in \intvect{0}{n}$, define the kernel  
+\begin{equation} \label{eq:def:retrokmodmod}
+    \retrokmodmod_{m, n}(x_m', \rmd x_{0:n}) \eqdef \delta_{x_m'}(\rmd x_m) \,  
+    \tstatmod{m}(x_m, \rmd x_{0:m - 1})
+    \prod_{\ell = m}^{n - 1} \ukmod{\ell}(x_\ell, \rmd x_{\ell + 1})
+\end{equation}
+on $\Xset_m \times \Xfd^n$ as well as the centered version 
+\begin{equation} \label{eq:def:retrokmodmodnorm}
+\retrokmodmodnorm_{m, n} h (x_m) \eqdef  \retrokmodmod_{m, n}(h - \postmod{0:n} h)(x_m) 
+\end{equation}
+on the same space. 
+
+The following is the main result of this section. 
+\begin{theorem} \label{cor:clt:pseudo:marginal:paris}
+Assume~\hypref[assum:biased:estimate]{assum:bound:filter:pseudomarginal}. Then for all $n \in \nset$, $\precpar \in \precparsp$, $\K \in \nsetpos$, and $h_n \in \bmaf{\Xfd^n}$, 
+$$
+ \sqrt{\N} \left( \sum_{i = 1}^\N \frac{\ewght{n}{i}}{\sumwght{n}} \tstat[i]{n} - \postmod{0:n} h_n  \right) 
+  \dlim \sigma_n(h_n) Z, 
+$$
+where $Z$ is standard normally distributed and 
+\begin{equation} \label{eq:as:var:decomp}
+\sigma^2_n (h_n) \eqdef \frac{\chi(\initwgtfunc \retrokmodmodnorm_{0, n} h_n)^2}{(\chi \ukmod{0, n - 1} \1_{\Xset^n})^2} + \sigma^2_n \langle (\wgtfuncmod{\ell})_{\ell = 0}^{n - 1} \rangle (h_n) + \sigma^2_n \langle (\ukestvar{\ell})_{\ell = 0}^{n - 1} \rangle (h_n) 
+\end{equation}
+and
+\begin{multline} \label{eq:non-recursive:as:var}
+\sigma^2_n \langle (\varphi_\ell)_{\ell = 0}^{n - 1} \rangle (h_n) 
+\eqdef \sum_{m = 0}^{n - 1} \frac{\postmod{m} \adjfuncforward{m} \postmod{m} \ukmod{m}(\varphi_m [\retrokmodmodnorm_{m + 1, n} h_n ]^2)}{(\postmod{m} \ukmod{m, n - 1} \1_{\Xset^n})^2}\\
++ \sum_{m = 0}^{n - 1} \sum_{\ell = 0}^m \frac{\postmod{m} \adjfuncforward{m} \postmod{\ell} \ukmod{\ell} \{\bkmod{\ell}(\tstatmod{\ell} h_{\ell} + \addf{\ell} - \tstatmod{\ell + 1} h_{\ell +1})^2 \ukmod{\ell + 1, m}( \bkmod{m} \varphi_m [\ukmod{m + 1, n - 1} \1_{\Xset^n}]^2
+)\}}{\K^{m - \ell + 1} (\postmod{\ell} \ukmod{\ell, m - 1} \1_{\Xset^m})(\postmod{m} \ukmod{m, n - 1} \1_{\Xset^n})^2}
+\end{multline}
+for any sequence $(\varphi_\ell)_{\ell \in \nset}$ of measurable functions $\varphi_\ell : \Xset_\ell \times \Xset_{\ell + 1} \to \rsetnn$. 
+\end{theorem}
+
+\begin{remark}
+The first term of \eqref{eq:as:var:decomp} corresponds to the contribution of the initialisation step to the asymptotic variance. This term is incorrectly missing in the asymptotic-variance expressions given in \cite[Theorem~3 and Corollary~5]{olsson:westerborn:2017}. The last term corresponds to the additional variance induced by the estimation of $(\ud{n})_{n \in \nset}$ regulated by \hypref{assum:biased:estimate}. Finally, as we shall see in Section~\ref{sec:implied:convergence:results}, the first two terms correspond jointly to the variance of the ideal PaRIS in Algorithm~\ref{alg:ideal:PaRIS}, for which $(\ud{n})_{n \in \nset}$ are assumed to be known and tractable. 
+\end{remark}
+
+Theorem~\ref{cor:clt:pseudo:marginal:paris} is established in Section~\ref{sec:proof:prop:clt:pseudo:marginal:paris} in the supplementary paper. The structure of the proof is adopted from \cite{olsson:westerborn:2017} (however, we remark again that it is, as explained above, the matter of a non-trivial extension), and the CLT in Theorem~\ref{cor:clt:pseudo:marginal:paris} is obtained directly as a corollary of a more general CLT for estimators of form $\sum_{i = 1}^\N \ewght{n}{i} \{ f_n(\epart{n}{i}) \tstat[i]{n} + \ftd{n}(\epart{n}{i}) \} / \sumwght{n}$, where $(f_n, \ftd{n}) \in \bmf{\Xfd_n}^2$; see Theorem~\ref{prop:clt:pseudo:marginal:paris} in the supplement.  
+
+\subsubsection{Convergence of Algorithm~\ref{alg:pm:SMC}} 
+\label{sec:implied:convergence:results}
+
+Our analysis provides, as a by-product, also a CLT for the random-weight particle filter obtained by iterating the forward-sampling operation in Algorithm~\ref{alg:pm:SMC}; indeed, this result, which is similar to \cite[Theorem~3]{fearnhead2008particle}, follows immediately by letting $f_n \equiv 0$ in Theorem~\ref{prop:clt:pseudo:marginal:paris} in the supplement, and we state it below for completeness. 
+
+\begin{proposition} \label{prop:clt:pseudo:marginal:filter}
+Assume~\hypref[assum:biased:estimate]{assum:bound:filter:pseudomarginal} and let $(\epart{n}{i}, \ewght{n}{i})_{i = 1}^\N$, $n \in \nset$, be generated by Algorithm~\ref{alg:pm:SMC}. Then for all $n \in \nset$, $\precpar \in \precparsp$, and $h \in \bmf{\Xfd_n}$, 
+$$
+ \sqrt{\N} \left( \sum_{i = 1}^\N \frac{\ewght{n}{i}}{\sumwght{n}} h(\epart{n}{i}) - \postmod{n} h \right) 
+  \dlim \tilde{\sigma}_n(h) Z, 
+$$
+where $Z$ is standard normally distributed and
+\begin{equation} \label{eq:as:var:pm:filter}
+\tilde{\sigma}^2_n(h) \eqdef \frac{\chi\{ \initwgtfunc \ukmod{0} \cdots \ukmod{n - 1}(h - \postmod{n} h) \}^2}{(\chi \ukmod{0} \cdots \ukmod{n - 1} \1_{\Xset_n})^2} + \tilde{\sigma}^2_n \langle (\wgtfuncmod{\ell})_{\ell = 0}^{n - 1} \rangle (h) + \tilde{\sigma}^2_n \langle (\ukestvar{\ell})_{\ell = 0}^{n - 1} \rangle (h) 
+\end{equation}
+and
+\begin{equation} \label{eq:non-recursive:filter:as:var}
+\tilde{\sigma}^2_n \langle (\varphi_\ell)_{\ell = 0}^{n - 1} \rangle (h) 
+\eqdef \sum_{m = 0}^{n - 1} \frac{\postmod{m} \adjfuncforward{m} \postmod{m} \ukmod{m}(\varphi_m [\ukmod{m + 1} \cdots \ukmod{n - 1} (h - \postmod{n} h)
+]^2)}{(\postmod{m} \ukmod{m} \cdots \ukmod{n - 1} \1_{\Xset_n})^2} 
+\end{equation}
+for any sequence $(\varphi_\ell)_{\ell \in \nset}$ of measurable functions $\varphi_\ell : \Xset_\ell \times \Xset_{\ell + 1} \to \rsetnn$. 
+\end{proposition}
+
+\subsubsection{Convergence of Algorithm~\ref{alg:ideal:PaRIS}}
+
+Importantly, Theorem~\ref{cor:clt:pseudo:marginal:paris} provides, as another by-product, also a CLT for the ideal PaRIS in Algorithm~\ref{alg:ideal:PaRIS}. Indeed, in the case where every $\ud{n}$ is tractable, we may set 
+\begin{equation} \label{eq:ideal:case}
+\ukest{n}{z}(x_n, x_{n + 1}) = \ud{n}(x_n, x_{n + 1})
+\end{equation} 
+for all $z$ and define $\ukdist{n}$ arbitrarily. This implies that the relative variance \eqref{eq:def:ukestvar} is identically zero, which eliminates the last term of \eqref{eq:as:var:decomp}. Thus, in this case the asymptotic variance is given by the first two terms of \eqref{eq:as:var:decomp}, but now induced by the original dynamics $(\uk{n})_{n \in \nset}$ (as \eqref{eq:ideal:case} implies that also $\udmod{n} = \ud{n}$). This result is formulated in the following corollary, where we have defined, for each $n \in \nset$ and $m \in \intvect{0}{n}$, the kernel  
+\begin{equation} \label{eq:def:retrok}
+    \retrok_{m, n}(x_m', \rmd x_{0:n}) \eqdef \delta_{x_m'}(\rmd x_m) \,  
+    \tstat{n}(x_m, \rmd x_{0:m - 1})
+    \prod_{\ell = m}^{n - 1} \uk{\ell}(x_\ell, \rmd x_{\ell + 1})
+\end{equation}
+on $\Xset_m \times \Xfd^n$ as well as the centered version 
+$$
+\retroknorm_{m, n} h (x_m) \eqdef  \retrok_{m, n}(h - \post{0:n} h)(x_m) 
+$$
+on the same space. 
+
+\begin{corollary} \label{cor:clt:ideal:paris}
+For each $n \in \nset$, assume that the functions $\adjfuncforward{n}$ and  
+$$
+\wgtfuncideal{n} : \Xset_n \times \Xset_{n + 1} \ni (x_n, x_{n + 1}) \mapsto \frac{\ud{n}(x_n, x_{n + 1})}{\adjfuncforward{n}(x) \kissforward{n}{n}(x_n, x_{n + 1})} 
+$$
+are bounded and let $(\epart{n}{i}, \tstat[i]{n}, \ewght{n}{i})_{i = 1}^\N$, $n \in \nset$, be generated by Algorithm~\ref{alg:ideal:PaRIS}. Then for all $n \in \nset$, $\precpar \in \precparsp$, $\K \in \nsetpos$, and $h_n \in \bmaf{\Xfd^n}$, 
+$$
+\sqrt{\N} \left( \sum_{i = 1}^\N \frac{\ewght{n}{i}}{\sumwght{n}} \tstat[i]{n} - \post{0:n} h_n  \right) \dlim \bar{\sigma}_n (h_n) Z, 
+$$
+where $Z$ is standard normally distributed and
+\begin{multline} \label{eq:as:var:ideal:PaRIS}
+\bar{\sigma}^2_n (h_n) 
+\eqdef \frac{\chi(\initwgtfunc \retroknorm_{0, n} h_n)^2}{(\chi \ukmod{0, n - 1} \1_{\Xset^n})^2} + \sum_{m = 0}^{n - 1} \frac{\post{m} \adjfuncforward{m} \post{m} \uk{m}(\wgtfuncideal{m} [\retroknorm_{m + 1, n} h_n ]^2)}{(\post{m} \uk{m, n - 1} \1_{\Xset_n})^2} \\
++ \sum_{m = 0}^{n - 1} \sum_{\ell = 0}^m \frac{\post{m} \adjfuncforward{m} \post{\ell} \uk{\ell} \{\bkw{\ell}(\tstat{\ell} h_{\ell} + \addf{\ell} - \tstat{\ell + 1} h_{\ell +1})^2 \uk{\ell + 1, m}( \bkw{m} \wgtfuncideal{m} [\uk{m + 1, n - 1} \1_{\Xset^n}]^2
+)\}}{\K^{m - \ell + 1} (\post{\ell} \uk{\ell, m - 1} \1_{\Xset_m})(\post{m} \uk{m, n - 1} \1_{\Xset_n})^2}. 
+\end{multline}
+\end{corollary}
+
+Corollary~\ref{cor:clt:ideal:paris} extends \cite[Corollary~5]{olsson:westerborn:2017} to general models \eqref{eq:def:post} and auxiliary-particle-filter-guided forward sampling. 
+
+\subsection{Long-term stochastic stability}
+
+In this section we establish the long-term stochastic stability of Algorithm~\ref{alg:pm:PaRIS} by providing an $\mathcal{O}(n)$ bound on the sequence $(\sigma^2_n (h_n))_{n \in \nset}$ for $\K \geq 2$. Using $\K \geq 2$ is critical, since, as noted in \cite{olsson:westerborn:2014b}, using $\K = 1$ in the PaRIS leads to a path-degeneracy phenomenon similar to that of the naive smoother described in Section~\ref{sec:SMC}; we refer to \cite[Section~3.1]{olsson:westerborn:2014b} for a detailed discussion. Still, the variance bounds that we will present are of order $n(1 + 1/(\K - 1))$, which means that large $\K$ do not serve to reduce the variance significantly. This is in good agreement with simulations, where $\K = 2$ leads generally to good results. In addition, we shall see that our analysis, which is carried through in detail in Section~\ref{sec:variance:bounds} in the supplementary paper, yields, as by-products, a similar bound for the ideal PaRIS in Algorithm~\ref{alg:ideal:PaRIS} as well as a time-uniform bound on the sequence $(\tilde{\sigma}^2(h))_{n \in \nset}$ of asymptotic variances of the random-weight-particle-filter estimators generated by Algorithm~\ref{alg:pm:SMC}. As far as we know, the latter result is the first of its kind. The analysis will be carried through under the following strong-mixing assumption, which is now classical (see, \eg, \cite[Chapter~4]{delmoral:2004} and \cite[Section~4.3]{Cappe:2005:IHM:1088883}) and typically requires the state spaces $(\Xset_n)_{n \in \nset}$ to be compact sets. 
+\begin{hypH}
+\label{assum:strong:mixing}
+There exist constants $0 < \udlow < \udup < \infty$ such that for all $m \in \nset$ and $(x_m, x_{m + 1}) \in \Xset_m \times \Xset_{m + 1}$, 
+$$
+    \udlow \leq \ud{m}(x_m, x_{m + 1}) \leq \udup
+$$ 
+and 
+$$
+    \udlow \leq \inf_{\precpar \in \precparsp} \udmod{m}(x_m, x_{m + 1}), \quad \sup_{\precpar \in \precparsp} \udmod{m}(x_m, x_{m + 1}) \leq \udup. 
+$$ 
+\end{hypH}
+Note that under \hypref{assum:strong:mixing}, each reference measure $\mu_m$ is finite; we may hence, without loss of generality, assume that each $\mu_m$ is a probability measure. Under \hypref{assum:strong:mixing}, define the mixing rate 
+\begin{equation} \label{eq:def:rho}
+    \rho \eqdef 1 - \frac{\udlow}{\udup}
+\end{equation}
+as well as the constants 
+$$
+c(\sigma_\pm) \eqdef \frac{1}{\rho^2 (1 - \rho)^5 \udlow}, \quad d(\sigma_\pm) \eqdef \frac{1}{(1- \rho)^4 \udlow^2} \left( 2 + \frac{1}{1 - \rho} \right)^2, 
+$$
+and 
+$$
+\cboundtd \eqdef \frac{1}{(1 - \rho)^3 \udlow} \left( \frac{1}{\rho^2(1 - \rho^2)} + 1 \right). 
+$$
+
+Having introduced these quantities, we are ready to present the main result of this section. 
+
+\begin{theorem} \label{thm:variance:bound}
+Assume \hypref[assum:biased:estimate]{assum:strong:mixing}. 
+Then for every $\precpar \in \precparsp$, $\K \geq 2$, $h_n \in \bmaf{\Xfd^n}$, and sequence $(\varphi_\ell)_{\ell \in \nset}$ of bounded measurable functions $\varphi_\ell : \Xset_\ell \times \Xset_{\ell + 1} \to \rsetnn$, 
+$$
+\limsup_{n \to \infty} \frac{1}{n} \sigma^2_n \langle (\varphi_\ell)_{\ell = 0}^{n - 1} \rangle (h_n) 
+\leq \left( \cbound + \frac{1}{\K - 1} \dbound \right) 
+\sup_{\ell \in \nset} \| \addf{\ell} \|_\infty^2 \sup_{\ell \in \nset} \| \adjfuncforward{\ell} \|_\infty \sup_{\ell \in \nset} \| \varphi_\ell \|_\infty.  
+$$
+\end{theorem}
+
+Using Theorem~\ref{thm:variance:bound}, $\mathcal{O}(n)$ bounds on the asymptotic variances of Algorithm~\ref{alg:pm:PaRIS} and Algorithm~\ref{alg:ideal:PaRIS} are readily obtained. 
+
+\begin{corollary} \label{cor:variance:bound}
+Assume \hypref[assum:biased:estimate]{assum:strong:mixing}. Then for every $\precpar \in \precparsp$, $\K \geq 2$, and $h_n \in \bmaf{\Xfd^n}$, 
+\begin{multline} \label{eq:variance:bound:full:monty}
+\limsup_{n \to \infty} \frac{1}{n} \sigma^2_n(h_n) \\ 
+\leq \left( \cbound + \frac{1}{\K - 1} \dbound \right) \sup_{\ell \in \nset} \| \addf{\ell} \|_\infty^2 \sup_{\ell \in \nset} \| \adjfuncforward{\ell} \|_\infty  \left( \sup_{\ell \in \nset} \| \wgtfuncmod{\ell} \|_\infty + \sup_{\ell \in \nset} \| \ukestvar{\ell} \|_\infty \right) \\
++ \frac{1}{\rho^2(1 - \rho)^4 (\chi \1_{\Xset_0})^2} \sup_{\ell \in \nset} \| \addf{\ell} \|_\infty^2. 
+\end{multline}
+\end{corollary}
+
+\begin{corollary} \label{cor:variance:bound:ideal:PaRIS}
+Assume \hypref[assum:biased:estimate]{assum:strong:mixing}. Then for every $\K \geq 2$ and $h_n \in \bmaf{\Xfd^n}$, 
+\begin{multline*}
+\limsup_{n \to \infty} \frac{1}{n} \bar{\sigma}^2_n(h_n) \leq  \left( \cbound + \frac{1}{\K - 1} \dbound \right)
+\sup_{\ell \in \nset} \| \addf{\ell} \|_\infty^2 \sup_{\ell \in \nset} \| \adjfuncforward{\ell} \|_\infty \sup_{\ell \in \nset} \| \wgtfuncideal{\ell} \|_\infty \\
++ \frac{1}{\rho^2(1 - \rho)^4 (\chi \1_{\Xset_0})^2} \sup_{\ell \in \nset} \| \addf{\ell} \|_\infty^2,  
+\end{multline*}
+where $(\bar{\sigma}^2_n)_{n \in \nset}$ is given by \eqref{eq:as:var:ideal:PaRIS}. 
+\end{corollary}
+
+Finally, we provide, for completeness, a time-uniform bound on the asymptotic variances of the random-weight particle filter corresponding to repeated forward sampling (Algorithm~\ref{alg:pm:SMC}). This bound is obtained more or less for free while establishing Theorem~\ref{thm:variance:bound} (see Section~\ref{sec:variance:bounds} in the supplement for details).  
+
+\begin{proposition}  \label{prop:variance:bound:filter}
+Assume \hypref[assum:biased:estimate]{assum:bound:filter:pseudomarginal} and \hypref{assum:strong:mixing}. Then for every $\precpar \in \precparsp$ and $h \in \bmf{\Xfd_n}$,  
+$$
+\tilde{\sigma}^2_n(h) 
+\leq \cboundtd  \|h \|_\infty^2 \sup_{\ell \in \nset} \| \adjfuncforward{\ell} \|_\infty  \left( \sup_{\ell \in \nset} \| \wgtfuncmod{\ell} \|_\infty + \sup_{\ell \in \nset} \| \ukestvar{\ell} \|_\infty \right) \\
++ \| h \|_\infty^2 \frac{\rho^{2n}}{\rho^4(1 - \rho)^2 (\chi \1_{\Xset_0})^2},   
+$$
+where $(\tilde{\sigma}^2_n)_{n \in \nset}$ are given by \eqref{eq:as:var:pm:filter}. 
+\end{proposition}
+
+\subsection{Bounds on asymptotic bias}
+\label{sec:lipschitz:continuity}
+
+In the previous section we saw that asymptotically, as $\N$ tends to infinity, the estimator produced by $n$ iterations of Algorithm~\ref{alg:pm:PaRIS} converges to the `skew' expectation $\postmod{0:n} h_n$. In this part we will study the discrepancy between $\postmod{0:n} h_n$ and $\post{0:n} h_n$ and establish an $\mathcal{O}(n \precpar)$ bound on the same. The analysis will be performed under the assumption that the precision parameter $\precpar$ controls, uniformly in $n$, the bias of the estimators provided by \hypref{assum:biased:estimate} in the following sense.    
+
+\begin{hypH}
+\label{assum:bias:bound}
+There exists a constant $c > 0$ such that for all $n \in \mathbb{N}$, $\varepsilon \in \precparsp$, $h \in \bmf{\Xfd_n \tensprod \Xfd_{n + 1}}$, and $x \in \Xset_n$,   
+$$
+|\ukmod{n} h (x) - \uk{n} h (x)| \leq c \varepsilon \| h \|_\infty. 
+$$
+\end{hypH}
+
+\begin{example}[Durham--Gallant estimator, cont.]
+We check \hypref{assum:bias:bound} for the Durham--Gallant estimator in Example~\ref{eq:durham:gallant}. 
+
+\subsubsection*{Case~1}
+Assume that the emission densities of the model are uniformly bounded, \ie, there exists $\sigma_+ \in \rsetpos$ such that $\| \md{n} \|_\infty \leq \sigma_+$ for all $n \in \nset$. In the case of the Euler scheme and under the given assumptions on equation \eqref{eq:SDE}, it can be shown that there exist $c_\delta > 0$ and $d_\delta > 0$ such that for all $\precpar \in \precparsp_\delta$ and $(x_n, x_{n + 1}) \in \Xset^2$, 
+\begin{equation} \label{eq:Euler:bound}
+\left| q_\delta(x_n, x_{n + 1}) - \int \bar{\kernel{Q}}^{\delta / \precpar - 1}_\precpar(x_n, \rmd x) \, \bar{q}_\precpar(x, x_{n + 1}) \right|\leq c_\delta \frac{\precpar}{\delta} \exp \left( - d_\delta \| x_{n + 1} - x_n \|^2\right);  
+\end{equation}
+see \cite{bally:talay:1996} (see also \cite{delmoral:jacod:2001} for an application to SMC methods). Thus, using \eqref{eq:ukmod:durham:gallant}, for all $x_n$ and $h \in \bmf{\Xfd^{\tensprod 2}}$,
+\begin{align*}
+\left|\ukmod{n} h (x_n) - \uk{n} h (x_n) \right|&\leq c_\delta \frac{\precpar}{\delta} \int h(x_n, x_{n + 1}) g(x_n, x_{n + 1}, y_{n + 1}) \exp \left( - d_\delta \| x_{n + 1} - x_n \|^2\right) \, \rmd x_{n + 1} \\
+&\leq c_\delta \frac{\precpar}{\delta} \left( \frac{\pi}{d_\delta} \right)^{d_x / 2} \sigma_+ \|h \|_\infty.  
+\end{align*}
+
+\subsubsection*{Case~2}
+
+The second case can be treated straightforwardly by combining the bound \eqref{eq:Euler:bound}, applied to the bivariate process $(X_t, Y_t)_{t > 0}$, with \eqref{eq:ukmod:durham:gallant:case:2}. This provides the existence of constants $\tilde{c}_\delta > 0$ and $\tilde{d}_\delta > 0$ such that for all $\precpar \in \precparsp_\delta$ and $(x_n, y_n, y_{n + 1}) \in \Xset \times \Yset^2$ and $h \in \bmf{\Xfd^{\tensprod 2}}$,  
+\begin{align*}
+\lefteqn{\left|\ukmod{n} h (x_n) - \uk{n} h (x_n) \right|}\hspace{20mm} \\
+&\leq \tilde{c}_\delta \frac{\precpar}{\delta} \exp \left( - \tilde{d}_\delta \| y_{n + 1} -y_n \|^2\right) \int h(x_n, x_{n + 1}) \exp \left( - \tilde{d}_\delta \| x_{n + 1} - x_n \|^2\right) \, \rmd x_{n + 1} \\
+&\leq \tilde{c}_\delta \frac{\precpar}{\delta} \left( \frac{\pi}{\tilde{d}_\delta} \right)^{d_x / 2} \|h \|_\infty.  
+\end{align*}
+
+\end{example}
+
+\begin{example}[the exact algorithm, cont.] \label{ex:exact:algorithm:cont}
+In this case, the estimator is unbiased; thus, \hypref{assum:bias:bound} holds true for $\precpar = 0$. 
+\end{example}
+
+\begin{example}[ABC smoothing, cont.] In \cite{martin:jasra:singh:whiteley:delmoral:maccoy:2014}, the authors carry through their theoretical analysis under the assumption that each emission density $\md{n}$ is Lipschitz in the sense that there exists some constant $L \in \rsetpos$ such that   
+\begin{equation} \label{eq:lipschitz:md}
+\sup_{x_n \in \Xset_n} \left| \md{n}(x_n, y_n) - \md{n}(x_n, y'_n) \right| \leq L \| y_n - y_n' \|_1
+\end{equation}
+for all $y_n$ and $y'_n$ in $\rset^{d_y}$. For the purpose of illustration, assume that $\kappa_\precpar$ is a zero-mean multivariate normal distribution with covariance matrix $\precpar^2 \mathbf{I}_{d_y}$ for $\precpar > 0$. It is then easily shown that the condition \eqref{eq:lipschitz:md} implies \hypref{assum:bias:bound}; indeed, in this case, for all $x_n \in \Xset_n$ and $h \in \bmf{\Xfd_n \tensprod \Xfd_{n + 1}}$, using \eqref{eq:ukmod:ABC:smoothing}, 
+$$
+\left| \ukmod{n} h (x_n) - \mathbf{L}_n h (x_n) \right| \leq L  \|h \|_\infty \int \kappa_\precpar(z - y_{n + 1}) \| z - y_{n + 1} \|_1 \, \rmd z \leq \precpar d_y L \|h \|_\infty. 
+$$
+\end{example}
+
+Under \hypref{assum:strong:mixing} and \hypref{assum:bias:bound} we may establish the next theorem, whose proof is postponed to Section~\ref{sec:proofs} in the supplement.  
+
+\begin{theorem} \label{thm:bias:bound}
+    Assume \hypref{assum:biased:estimate} and \hypref[assum:strong:mixing]{assum:bias:bound}. Then for all $n \in \nset$, $\precpar \in \precparsp$, and $h_n \in \bmaf{\Xfd^n}$, 
+    \begin{align*}
+        \precpar^{-1} \big| \postmod{0:n} h_n -  \post{0:n} h_n \big| 
+        &\leq 2 c \frac{\udup}{\udlow^2} \sum_{k = 0}^{n - 1} \| \addf{k} \|_\infty \left( \sum_{m = 1}^{n - 1} \rho^{|k - m| - 1} + 1 \right) \\
+        &\leq 2 c n \frac{\udup}{\udlow^2} \left( 1 + \frac{1}{\rho} + \frac{2}{1 - \rho} \right) \sup_{k \in \intvect{0}{n - 1}} \| \addf{k} \|_\infty,   
+    \end{align*}
+where $c$ is the constant in \hypref{assum:bias:bound}. 
+\end{theorem}
+In the case where $\sup_{k \in \nset} \| \addf{k} \|_\infty < \infty$, the bound provided by Theorem \ref{thm:bias:bound} is $\mathcal{O}(n)$. Moreover, by letting $\addf{k} \equiv 0$, for $k \in \intvect{0}{n - 2}$ and $\addf{n - 1}(x_{n - 1}, x_n) = h(x_n)$ for some given objective function $h \in \bmf{\Xfd_n}$, Theorem \ref{thm:bias:bound} provides, as a by-product, the following uniform error bound for the marginals (a result referred to as the \emph{filter sensitivity} in the case of parametric state-space models).  
+
+\begin{corollary} \label{cor:filter:sensitivity}
+ Assume \hypref{assum:biased:estimate} and \hypref[assum:strong:mixing]{assum:bias:bound}. Then for all $n \in \nset$, $\precpar \in \precparsp$, and $h \in \bmaf{\Xfd^n}$,
+        $$
+        \precpar^{-1} \big| \postmod{n} h -  \post{n} h \big| \leq 2 c \frac{\udup}{\udlow^2}  \| h \|_\infty \left( 1 + \frac{1}{\rho (1 - \rho)} \right).   
+    $$
+\end{corollary}
+
+\begin{remark}
+Consider now a parameterised version of the model, where the transition densities $(\ud{n ; \theta})_{k \in \nset}$ are indexed by some parameter $\theta$ belonging to some parameter space $\Theta$ being a subset of $\rset^d$. Assume further that all $(\ud{n ; \theta})_{n \in \nset}$ are differentiable with respect to $\theta$ and such that for all $n \in \nset$, $x_n \in \Xset$, and $h \in \bmf{\Xfd_{n + 1}}$,  
+$$
+\nabla_\theta \int \ud{n ; \theta}(x_n, x_{n + 1}) h(x_{n + 1}) \, \mu_{n + 1}(\rmd x_{n + 1}) = \int \nabla_\theta \ud{n ; \theta}(x_n, x_{n + 1}) h(x_{n + 1}) \, \mu_{n + 1}(\rmd x_{n + 1})
+$$
+and 
+$$
+\sup_{\theta \in \Theta} \int |\nabla_\theta \ud{n ; \theta}(x_n, x_{n + 1})| \, \mu_{n + 1}(\rmd x_{n + 1}) \leq c < \infty 
+$$
+for some positive constant $c$, implying \hypref{assum:bias:bound} in the sense that for all $n \in \nset$, $h \in \bmf{\Xfd_{n + 1}}$, and $x_n \in \Xset$, 
+$$
+| \uk{n; \theta}h(x_n) - \uk{n; \theta'}h(x_n) | \leq c \| \theta - \theta' \| \| h \|_\infty
+$$
+(\emph{i.e.}, $\precpar = \| \theta - \theta' \|$ in this case). Finally, assume also that family satisfies \hypref{assum:strong:mixing} uniformly over the parameter space in the sense that for all $n \in \nset$, $(x_n, x_{n + 1}) \in \Xset^2$, and $\theta \in \Theta$, 
+$
+\udlow \leq \ud{n; \theta}(x_n, x_{n + 1}) \leq \udup. 
+$  
+Then Theorem~\ref{thm:bias:bound} provides a positive constant $d$ such that for all $n \in \nset$,  
+$$
+\big| \post{0:n ; \theta} h_n -  \post{0:n ; \theta'} h_n \big|  
+\leq d n \| \theta - \theta' \| \sup_{k \in \nset} \| \addf{k} \|_\infty. 
+$$
+This extends previous results on the uniform continuity of the filter distribution (see, \eg, \cite{papavasiliou:2006,legland:oudjane:2004}) to smoothing of additive state functionals.  
+\end{remark}
