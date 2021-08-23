@@ -9,15 +9,15 @@ Theorem~\ref{cor:hoeffding:tau:marginal} follows as an immediate corollary of th
 
 \begin{proposition}
 \label{prop:hoeffding:tau:marginal}
-Assume \hypref[assum:biased:estimate]{assum:bound:filter:pseudomarginal}. Then for all $n \in \nset$, $h_n \in \bmaf{\Xfd^n}$, $(f_n, \ftd{n}) \in \bmf{\Xfd_n}^2$, and $\K \in \nsetpos$ there exist $(c_n, d_n) \in \rsetpos^2$ such that for all $\N \in \nsetpos$ and $\epsilon > 0$,
+Assume \hypref[assum:biased:estimate]{assum:bound:filter:pseudomarginal}. Then for all $n \in \nset$, $h_n \in \bmaf{\Xfd^n}$, $(f_n, \ftd{n}) \in \bmf{\Xfd_n}^2$, and $\K \in \nsetpos$ there exist $(c_n, d_n) \in \rsetpos^2$ such that for all $\N \in \nsetpos$ and $\delta > 0$,
 \begin{itemize}
 \item[(i)] 
 $ \displaystyle
-\pP\left(\left| \frac{1}{\N} \sum_{i = 1}^\N \ewght{n}{i} \{\tstat[i]{n} f_n(\epart{n}{i}) + \ftd{n}(\epart{n}{i})\} - \frac{\postmod{n - 1} \ukmod{n - 1} ( \tstatmod{n} h_n f_n + \tilde{f}_n )}{\postmod{n - 1} \adjfuncforward{n - 1}} \right| \geq \epsilon \right) \leq c_n \exp \left( - d_n \N \epsilon^2 \right),
+\pP\left(\left| \frac{1}{\N} \sum_{i = 1}^\N \ewght{n}{i} \{\tstat[i]{n} f_n(\epart{n}{i}) + \ftd{n}(\epart{n}{i})\} - \frac{\postmod{n - 1} \ukmod{n - 1} ( \tstatmod{n} h_n f_n + \tilde{f}_n )}{\postmod{n - 1} \adjfuncforward{n - 1}} \right| \geq \delta \right) \leq c_n \exp \left( - d_n \N \delta^2 \right),
 $
 \item[(ii)] 
 $ \displaystyle
-\pP\left(\left| \sum_{i = 1}^\N \frac{\ewght{n}{i}}{\sumwght{n}} \{\tstat[i]{n} f_n(\epart{n}{i}) + \tilde{f}_n(\epart{n}{i})\} - \postmod{n} ( \tstatmod{n} h_n f_n + \tilde{f}_n ) \right| \geq \epsilon \right) \leq c_n \exp \left( - d_n \N \epsilon^2 \right).
+\pP\left(\left| \sum_{i = 1}^\N \frac{\ewght{n}{i}}{\sumwght{n}} \{\tstat[i]{n} f_n(\epart{n}{i}) + \tilde{f}_n(\epart{n}{i})\} - \postmod{n} ( \tstatmod{n} h_n f_n + \tilde{f}_n ) \right| \geq \delta \right) \leq c_n \exp \left( - d_n \N \delta^2 \right).
 $
 \end{itemize}
 \end{proposition}
@@ -85,16 +85,16 @@ Since for all $i$,
 $$
 |\ewght{n + 1}{i} \{\tstat[i]{n + 1} f_{n + 1}(\epart{n + 1}{i}) + \ftd{n + 1}(\epart{n + 1}{i})\}| \leq \| \wgtfunc{n} \|_\infty (\| h_{n + 1} \|_\infty \| f_{n + 1} \|_\infty + \| \ftd{n + 1} \|_\infty), 
 $$
-the Hoeffding inequality for conditional expectations provides constants $(d, \tilde{d}) \in \rsetpos^2$ such that for all $\epsilon > 0$, 
+the Hoeffding inequality for conditional expectations provides constants $(d, \tilde{d}) \in \rsetpos^2$ such that for all $\delta > 0$, 
 \begin{multline*}
 \pP \left( \left| \frac{1}{\N} \sum_{i = 1}^\N \ewght{n + 1}{i} \{\tstat[i]{n + 1} f_{n + 1}(\epart{n + 1}{i}) + \ftd{n + 1}(\epart{n + 1}{i})\} \right. \right. \\
-\left. \left.  - \pE \left[ \ewght{n + 1}{1} \{\tstat[1]{n + 1} f_{n + 1}(\epart{n + 1}{1}) + \ftd{n + 1}(\epart{n + 1}{1})\} \cond \calF{n}{\N} \right] \vphantom{\sum_{i = 1}^\N} \right| \geq \epsilon \right) \leq d \exp \left( - \tilde{d} N \epsilon^2 \right).  
+\left. \left.  - \pE \left[ \ewght{n + 1}{1} \{\tstat[1]{n + 1} f_{n + 1}(\epart{n + 1}{1}) + \ftd{n + 1}(\epart{n + 1}{1})\} \cond \calF{n}{\N} \right] \vphantom{\sum_{i = 1}^\N} \right| \geq \delta \right) \leq d \exp \left( - \tilde{d} N \delta^2 \right).  
 \end{multline*}
-In addition, since $\adjfuncforward{n}$, $\adjfuncforward{n} \prop{n} (\wgtfuncmod{n} f_{n + 1})$, and $\adjfuncforward{n} \prop{n}(\wgtfuncmod{n} \addf{n} f_{n + 1} + \wgtfuncmod{n} \ftd{n + 1})$ all belong to $\bmf{\Xfd_n}$, there exist, by the induction hypothesis and \cite[Lemma~4]{douc:garivier:moulines:olsson:2010}, $(d', \tilde{d}') \in \rsetpos^2$ such that for all $\epsilon > 0$, 
+In addition, since $\adjfuncforward{n}$, $\adjfuncforward{n} \prop{n} (\wgtfuncmod{n} f_{n + 1})$, and $\adjfuncforward{n} \prop{n}(\wgtfuncmod{n} \addf{n} f_{n + 1} + \wgtfuncmod{n} \ftd{n + 1})$ all belong to $\bmf{\Xfd_n}$, there exist, by the induction hypothesis and \cite[Lemma~4]{douc:garivier:moulines:olsson:2010}, $(d', \tilde{d}') \in \rsetpos^2$ such that for all $\delta > 0$, 
 \begin{multline*}
 \pP \left( \left|  \sum_{j = 1}^\N 
 \frac{\ewght{n}{j} \adjfuncforward{n}(\epart{n}{j})}{\sum_{j' = 1}^\N \ewght{n}{j'} \adjfuncforward{n}(\epart{n}{j'})} \{ \tstat[j]{n} \prop{n} (\wgtfuncmod{n} f_{n + 1})(\epart{n}{j}) + \prop{n}(\wgtfuncmod{n} \addf{n} f_{n + 1} + \wgtfuncmod{n} \ftd{n + 1})(\epart{n}{j})\} \right. \right. \\
-\left. \left. - \frac{\postmod{n - 1} \ukmod{n - 1}\{\tstatmod{n} \ukmod{n} f_{n + 1} + \ukmod{n} (\addf{n} f_{n + 1} + \ftd{n + 1})\}}{\postmod{n - 1} \ukmod{n - 1} \adjfuncforward{n}} \right| \geq \epsilon \right) \leq d' \exp \left( - \tilde{d}' N \epsilon^2 \right).  
+\left. \left. - \frac{\postmod{n - 1} \ukmod{n - 1}\{\tstatmod{n} \ukmod{n} f_{n + 1} + \ukmod{n} (\addf{n} f_{n + 1} + \ftd{n + 1})\}}{\postmod{n - 1} \ukmod{n - 1} \adjfuncforward{n}} \right| \geq \delta \right) \leq d' \exp \left( - \tilde{d}' N \delta^2 \right).  
 \end{multline*}
 Combining the previous two inequalities completes the proof of (i) at time step $n + 1$. The base case $n = 1$ is established using again the decomposition \eqref{eq:hoeffding:decomp}, the standard Hoeffding inequality for independent and identically distributed variables, \cite[Lemma~4]{douc:garivier:moulines:olsson:2010}, and the fact that $h_0 \equiv 0$.   
 
