@@ -96,7 +96,8 @@ Iterating recursively, after initialisation as in Section~\ref{sec:SMC}, pseudo-
 \subsubsection{Pseudo-marginal backward sampling}
 \label{eq:sec:backward:sampling:pseudo:marg}
 
-Let us turn our focus to backward sampling. As intractability of $\ud{n}$ implies intractability of the kernel $\trm{n}$ (defined in \eqref{eq:def:trm}), we aim at further pseudo marginalisation by embedding $\trm{n}$ into the extended kernel  
+%Let us turn our focus to backward sampling. 
+As intractability of $\ud{n}$ implies intractability of the kernel $\trm{n}$ (defined in \eqref{eq:def:trm}), we aim at further pseudo marginalisation by embedding $\trm{n}$ into the extended probability kernel  
 $$
 \trmext{n}(i, j, \rmd z) \propto \ewght{n}{j} \ukest{n}{z}(\epart{n}{j}, \epart{n + 1}{i}) \, \ukdist{n}(\epart{n}{j}, \epart{n + 1}{i}, \rmd z)
 $$
@@ -135,7 +136,7 @@ on $\powerset{\intvect{1}{\N}} \tensprod \Zfd_{n + 1}$ to be bounded uniformly a
 $$
 \frac{\rmd \trmext{n}(i, \cdot)}{\rmd \rho_n^i}(j, z) \leq \frac{c(\epart{n + 1}{i}) \sumwght{n}}{\sum_{i' = 1}^\N \ewght{n}{i'} \udmod{n}(\epart{n}{i'}, \epart{n + 1}{i})},  
 $$ 
-we may sample from the target $\trmext{n}(i, \cdot)$ using rejection sampling. Thus, the following procedure is iterated until acceptance: simulate a candidate $(J^\ast, \zeta^\ast)$ from $\rho_n^i$ by drawing $J^\ast \sim \cat(\{ \ewght{n}{\ell} \}_{\ell = 1}^\N)$ and $\zeta^\ast \sim \kernel{R}(\epart{n}{J^\ast}, \epart{n + 1}{i}, \rmd z)$; then accept the same with (tractable) probability 
+we may sample from the target $\trmext{n}(i, \cdot)$ using rejection sampling. Thus, the following procedure is iterated until acceptance: simulate a candidate $(J^\ast, \zeta^\ast)$ from $\rho_n^i$ by drawing $J^\ast \sim \cat(\{ \ewght{n}{j} \}_{j = 1}^\N)$ and $\zeta^\ast \sim \kernel{R}(\epart{n}{J^\ast}, \epart{n + 1}{i}, \rmd z)$; then accept the same with (tractable) probability 
 $$
 \accprobext \eqdef \frac{\ukest{n}{\zeta^\ast}(\epart{n}{J^\ast}, \epart{n + 1}{i})}{c(\epart{n + 1}{i})}. 
 $$ 
