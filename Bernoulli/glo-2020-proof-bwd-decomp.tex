@@ -26,7 +26,7 @@ Now, since $\bkw{n} \bar{h}(x_{n + 1}) = \tstat{n + 1} h(x_{n + 1})$, (i) yields
 \end{align*}
 Thus, we obtain, by applying \eqref{eq:recursion:FK:path} and \eqref{eq:recursion:FK:marg},  
 $$
-\post{0:n + 1} h = \frac{\post{0:n} \uk{0, n} h}{\post{0:n} \uk{0, n} \1_{\Xset^n}} 
+\post{0:n + 1} h = \frac{\post{0:n} \uk{n, n} h}{\post{0:n} \uk{n, n} \1_{\Xset^{n+1}}} 
 = \int \frac{\post{n} \uk{n}(\rmd x_{n + 1})}{\post{n} \uk{n} \1_{\Xset_{n + 1}}} \tstat{n + 1} h(x_{n + 1}) = \post{n + 1} \tstat{n + 1} h. 
 $$
 Finally, we note that the base case $n = 1$ follows straightforwardly by combining (i) and \eqref{eq:recursion:FK:marg}. 
