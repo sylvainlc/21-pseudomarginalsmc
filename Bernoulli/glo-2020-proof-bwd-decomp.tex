@@ -11,7 +11,7 @@ which was to be established.
 
 The statement (ii) is shown by induction. Thus, assume that the claim holds true for $n$, pick arbitrarily $h \in \bmf{\Xfd^{n + 1}}$, and write, using the induction hypothesis, 
 \begin{align*}
-\post{0:n} \uk{0, n} h &= \iint \post{n}(\rmd x_n) \, \tstat{n}(x_n, \rmd x_{0:n - 1}) \, \uk{n}(x_n, \rmd x_{n + 1}) \, h(x_{0:n + 1}) \\
+\post{0:n} \uk{n, n} h &= \iint \post{n}(\rmd x_n) \, \tstat{n}(x_n, \rmd x_{0:n - 1}) \, \uk{n}(x_n, \rmd x_{n + 1}) \, h(x_{0:n + 1}) \\
 &= \iint \post{n}(\rmd x_n) \, \uk{n}(x_n, \rmd x_{n + 1}) \, \bar{h}(x_n, x_{n + 1}), 
 \end{align*}
 where 
@@ -20,7 +20,7 @@ $$
 $$
 Now, since $\bkw{n} \bar{h}(x_{n + 1}) = \tstat{n + 1} h(x_{n + 1})$, (i) yields
 \begin{align*} 
-\post{0:n} \uk{0, n} h 
+\post{0:n} \uk{n, n} h 
 &= \iint \post{n} \uk{n}(\rmd x_{n + 1}) \, \bkw{n}(x_{n + 1}, \rmd x_n) \, \bar{h}(x_n, x_{n + 1}) \\
 &= \int \post{n} \uk{n}(\rmd x_{n + 1}) \, \tstat{n + 1} h(x_{n + 1}). 
 \end{align*}
