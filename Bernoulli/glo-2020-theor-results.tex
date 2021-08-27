@@ -18,9 +18,7 @@ on $\Xset_{n + 1} \times \Xfd_n$ as well as the joint law
 \begin{equation} \label{eq:skew:backward:law}
 \tstatmod{n}(x_n, \rmd x_{0:n - 1}) \eqdef \prod_{m = 0}^{n - 1} \bkmod{m}(x_{m + 1}, \rmd x_m)
 \end{equation}
-on $\Xset_n \times \Xfd^{n - 1}$. 
-
-The analysis will be carried through under the following assumption.
+on $\Xset_n \times \Xfd^{n - 1}$. The analysis will be carried through under the following assumption.
 \begin{hypH}
 \label{assum:bound:filter:pseudomarginal}
 For all $n \in \nset$, the functions $\adjfuncforward{n}$ and  
@@ -35,7 +33,7 @@ are bounded. So is also $\initwgtfunc : \Xset_0 \ni x_0 \mapsto \rmd \chi / \rmd
 
 \subsubsection*{Hoeffding inequality}
 
-Our first theoretical result is the following Hoeffding-type concentration inequality, which also plays a critical role for the derivation of the central limit theorem (CLT) in Theorem~\ref{cor:clt:pseudo:marginal:paris}. For every $n \in \nset$, let $\bmaf{\Xfd^n}$ denote the set of additive functionals \eqref{eq:add:func} such that $\addf{m} \in \bmf{\Xfd_m \tensprod \Xfd_{m + 1}}$ for all $m \in \intvect{0}{n - 1}$.   
+Our first result is the following Hoeffding-type concentration inequality, which also plays a critical role for the derivation of the central limit theorem (CLT) in Theorem~\ref{cor:clt:pseudo:marginal:paris}. For every $n \in \nset$, let $\bmaf{\Xfd^n}$ denote the set of additive functionals \eqref{eq:add:func} such that $\addf{m} \in \bmf{\Xfd_m \tensprod \Xfd_{m + 1}}$ for all $m \in \intvect{0}{n - 1}$.   
 \begin{theorem}
 \label{cor:hoeffding:tau:marginal}
 Assume \hypref[assum:biased:estimate]{assum:bound:filter:pseudomarginal}. Then for every $n \in \nset$, $\precpar \in \precparsp$, $h_n \in \bmaf{\Xfd^n}$, and $\K \in \nsetpos$ there exists $(c_n, d_n) \in \rsetpos^2$ such that for all $\N \in \nsetpos$ and $\delta > 0$,
@@ -68,9 +66,7 @@ on $\Xset_m \times \Xfd^n$ as well as the centered version
 \begin{equation} \label{eq:def:retrokmodmodnorm}
 \retrokmodmodnorm_{m, n} h (x_m) \eqdef  \retrokmodmod_{m, n}(h - \postmod{0:n} h)(x_m) 
 \end{equation}
-on the same space. 
-
-The following is the main result of this section. 
+on the same space. The following is the main result of this section. 
 \begin{theorem} \label{cor:clt:pseudo:marginal:paris}
 Assume~\hypref[assum:biased:estimate]{assum:bound:filter:pseudomarginal}. Then for all $n \in \nset$, $\precpar \in \precparsp$, $\K \in \nsetpos$, and $h_n \in \bmaf{\Xfd^n}$, 
 $$
