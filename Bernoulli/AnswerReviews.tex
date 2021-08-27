@@ -3,6 +3,7 @@
 \usepackage[latin1]{inputenc}
 \usepackage[round]{natbib}
 \usepackage{amssymb,amsmath,latexsym,xcolor}
+\usepackage[margin=1in]{geometry}
 
 %\textwidth  14.5cm
 %\textheight 20cm
@@ -36,7 +37,7 @@ Minor errors and typos listed by R2 were corrected as suggested. Please find bel
 \item p.7 Just before 2.2.2, it would be nice to comment on where one might get suitable adjustment weights $\vartheta_n$ from. How are these to be chosen or tuned?\\
 {\em We added the following lines after the introduction of the adjustment-weight function (after (2.8): "Adjustment multiplier weights were introduced in [31] to propose data-driven proposal distributions and design robust filtering estimates. These weights usually depend on the new observation and are often chosen to approximate the predictive likelihood of the new observation given the current particle. For further discussions see for instance [7,Chapter~8]".}
 \item p. 15-16: for the presentation of Example 2, I feel it would be better to describe the problem fully before giving Durham and Gallant's solution.\\
-{\em Do not agree!}
+{\em In Example~2, we thought it would be better to first fully describe the transition density estimator of the process defined by (3.8) before discussing several applications depending on the chosen model for the observation process.}
 \item p.29 Appendix A in the supplement has $\phi_n(dx_n)[\ell(\cdot,x_{n+1})]$  in the numerator that arises from $B_n(x_{n+1},dx_n)$. I think this should read $\phi_n(dx_n)\ell(x_n,x_{n+1})$  instead?\\
 {\em The normalizing term given in the appendix is correct, see (2.10).}
 \item p.30 Appendix A has $\phi_{0:n}L_{0,n}1_{X^n}$  in the denominator for  $\phi_{0:n+1}h$ which I think should read  $\phi_{0:n}L_{0,n}1_{X^{n+1}}$ as there is a dangling $dx_{n+1}$ otherwise.\\
