@@ -17,18 +17,18 @@ so that for all bounded measurable real-valued functions $h$,  $\vert \ukmod{n} 
 
 In this context, we conducted numerical experiments with $\theta = 5$ and $\varphi(x) = \min(\max(x, -10^5), 10^5)$. With this parametrisation, the model is, in practice, linear and Gaussian; thus, for linear additive state functionals in the form $h_n(x_{0:n}) = \sum_{k = 0}^n x_k$, a very good approximation of the exact solution $(\postmod{0:n} h_n)_{n \in \nset}$ to the optimal smoothing problem can, for the skewed models $(\precpar > 0)$ as well as the true model $(\precpar = 0)$, be obtained using Kalman recursions \cite{rauch1965maximum}. Figure~\ref{fig:varying:precpar} displays the discrepancy between $\postmod{0:n} h_n$ and $\post{0:n} h_n$ for varying $\precpar \in \{0, 0.05, 0.1, \ldots, 0.5 \}$ and a fixed $n = 50$ (the red line). Clearly, the bias increases---in perfect agreement with Theorem~\ref{thm:bias:bound}---at a rate that is at most linear in $\precpar$. In addition, Figure~\ref{fig:varying:precpar} shows similar biases (turquoise markers) obtained using the ideal PaRIS in Algorithm~\ref{alg:ideal:PaRIS} with $\N = 200$ particles and $\K = 2$ backward samples. In this algorithm, the particles were propagated using the \textit{optimal importance function} \cite{doucet2000sequential}, which can be computed explicitly in the linear Gaussian case. Here the PaRIS was re-run $60$ times for each value of $\precpar$. Note that the variance of the PaRIS estimates increases somewhat with $\precpar$, reflecting the fact that the proposal becomes less and less compatible with the data as the model gets increasingly skew. 
 
-In order to further illustrate the $\mathcal{O}(n \precpar)$ bound provided by Theorem~\ref{thm:bias:bound} as well as the stochastic stability of Algorithm~\ref{alg:ideal:PaRIS} established in Corollary~\ref{cor:variance:bound:ideal:PaRIS}, Kalman smoothing was conducted for $n \in \intvect{1}{50}$ on the basis of a skew model with fixed $\varepsilon = 0.1$. Figure~\ref{fig:varying:n} shows, as expected, a linear increase of the bias with $n$ (red line). In addition, displaying also the errors (green lines) of $60$ independent ideal PaRIS replicates (obtained under the skew model with the same algorithmic parametrisation as previously), the same plot confirms the stochastic stability of the ideal PaRIS algorithm, as the variance does not grow faster than linearly with $n$. Finally, for completeness Figure~\ref{fig:varying:n} reports similar errors (blue lines) when the ideal PaRIS evolves under the dynamics of the true model, and in this case the bias is negligible as expected.% (whereas the variance is still increasing linearly). 
+In order to further illustrate the $\mathcal{O}(n \precpar)$ bound provided by Theorem~\ref{thm:bias:bound} as well as the stochastic stability of Algorithm~\ref{alg:ideal:PaRIS} established in Corollary~\ref{cor:variance:bound:ideal:PaRIS}, Kalman smoothing was conducted for $n \in \intvect{1}{50}$ on the basis of a skew model with fixed $\varepsilon = 0.1$. Figure~\ref{fig:varying:n} shows, as expected, a linear increase of the bias with $n$ (red line). In addition, displaying also the errors (green lines) of $60$ independent ideal PaRIS replicates (obtained under the skew model), the same plot confirms the stochastic stability of the ideal PaRIS algorithm, as the variance does not grow faster than linearly with $n$. Finally, for completeness Figure~\ref{fig:varying:n} reports similar errors (blue lines) when the ideal PaRIS evolves under the dynamics of the true model, and in this case the bias is negligible as expected.% (whereas the variance is still increasing linearly). 
 
 \begin{figure}
     \centering
-    \begin{subfigure}[b]{0.45\textwidth}
+    \begin{subfigure}[b]{0.43\textwidth}
         \includegraphics[width=\textwidth]{%OL-version/figures/
         vary_epsilon_fixed_n.png}
         \caption{}
         \label{fig:varying:precpar}
     \end{subfigure}
     ~ 
-    \begin{subfigure}[b]{0.45\textwidth}
+    \begin{subfigure}[b]{0.43\textwidth}
         \includegraphics[width=\textwidth]{%OL-version/figures/
         fixed_epsilon_vary_n.png}
         \caption{}

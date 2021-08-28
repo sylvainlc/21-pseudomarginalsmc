@@ -45,8 +45,6 @@ The algorithm that we will propose relies on the following assumption.
 \label{assum:biased:estimate}
 Let $(\Zset_n, \Zfd_n)_{n \in \nsetpos}$ be a sequence of general state spaces. For each $n \in \nset$ there exist a Markov kernel $\ukdist{n}$ on $\Xset_n \times \Xset_{n + 1} \times \Zfd_{n + 1}$ and a positive measurable function $\ukest{n}{z}(x_n, x_{n + 1})$ on $\Xset_n \times \Xset_{n + 1} \times \Zset_{n + 1}$ such that for every $x_{n:n + 1} \in \Xset_n \times \Xset_{n + 1}$, drawing $\zeta \sim \ukdist{n}(x_{n:n + 1}, \rmd z)$ and computing $\ukest{n}{\zeta}(x_n, x_{n + 1})$ yields an estimate of $\ud{n}(x_n, x_{n + 1})$.  
 \end{hypH}
-
-
 Under \hypref{assum:biased:estimate}, we denote, for every $n \in \nset$ and $x_{n:n + 1} \in \Xset_n \times \Xset_{n + 1}$, by   
 \begin{equation} \label{eq:def:udmod}
 \udmod{n}(x_n, x_{n + 1}) \eqdef \int \ukdist{n}(x_{n:n + 1}, \rmd z) \, \ukest{n}{z}(x_n, x_{n + 1})
@@ -90,7 +88,6 @@ $$
 }
 \caption{Pseudo-marginal forward sampling, \textsf{pmFS}.} \label{alg:pm:SMC}
 \end{algorithm}
-
 Iterating recursively, after initialisation as in Section~\ref{sec:SMC}, pseudo-marginal forward sampling yields a generalisation of the random-weight particle filter proposed in \cite{fearnhead2008particle} in the context of partially observed diffusion processes. 
 
 \subsubsection{Pseudo-marginal backward sampling}
