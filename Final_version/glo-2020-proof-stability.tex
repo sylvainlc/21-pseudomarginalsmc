@@ -1,0 +1,104 @@
+\begin{proof}[Proof of Theorem~\ref{thm:variance:bound}]
+The following is a refinement of the proof of \cite[Proposition~7]{olsson:westerborn:2017}. 
+
+We start by bounding the first term of \eqref{eq:non-recursive:as:var}. For this purpose, we first prove that for all $m \in \intvect{0}{n - 1}$, 
+\begin{equation} \label{eq:retrokmodmodnorm:bound}
+\|\retrokmodmodnorm_{m, n} h_n \|_\infty \leq \| \ukmod{m, n - 1} \1_{\Xset^n} \|_\infty \sum_{k = 0}^{n - 1} \|\addf{k} \|_\infty \rho^{|k - m| - 1}. 
+\end{equation}
+In order to establish \eqref{eq:retrokmodmodnorm:bound}, first note that  
+\begin{equation} \label{eq:post:retrok:id}
+\postmod{0:n} h_n = \frac{\postmod{m} \retrokmodmod_{m, n} h_n}{\postmod{m} \retrokmodmod_{m, n} \1_{\Xset^n}}.  
+\end{equation}
+Thus, using the extensions \eqref{eq:def:addf} we may write, for $x_m \in \Xset_m$, 
+$$
+\frac{\retrokmodmodnorm_{m, n} h_n(x_m)}{\ukmod{m, n - 1} \1_{\Xset^n}(x_m)} = \sum_{k = 0}^{n - 1} \left( \frac{\retrokmodmod_{m, n} \addf[n]{k}(x_m)}{\retrokmodmod_{m, n} \1_{\Xset^n}(x_m)} - \frac{\postmod{m} \retrokmodmod_{m, n} \addf[n]{k}}{\postmod{m} \retrokmodmod_{m, n} \1_{\Xset^n}} \right). 
+$$
+Thus, the bound \eqref{eq:retrokmodmodnorm:bound} is obtained by applying Lemma~\ref{lem:geo:bound} (twice: first, with $\precpar = 0$, allowing $\retrokmod_{m, n}$ in Lemma~\ref{lem:geo:bound} to be replaced by $\retrok_{m, n}$; second, with the skew model playing the role of the original model, allowing $\retrok_{m, n}$ to be replaced by $\retrokmodmod_{m, n}$), with $\lambda = \delta_{x_m}$ and $\lambda' = \postmod{m}$, to each term on the right-hand side of the previous identity. 
+
+Now, using \eqref{eq:retrokmodmodnorm:bound} and the bound \eqref{eq:retrokmod:ratio:bd}, 
+\begin{multline} \label{eq:first:bound:first:term}
+\sum_{m = 0}^{n - 1} \frac{\postmod{m} \adjfuncforward{m} \postmod{m} \ukmod{m}(\varphi_m [\retrokmodmodnorm_{m + 1, n} h_n ]^2)}{(\postmod{m} \ukmod{m, n - 1} \1_{\Xset^n})^2} \\ 
+\leq \sup_{\ell \in \nset} \| \adjfuncforward{\ell} \|_\infty \sup_{\ell \in \nset} \| \varphi_\ell \|_\infty \frac{\udup^3}{\udlow^4}
+\sum_{m = 0}^{n - 1} \left( \sum_{k = 0}^{n - 1} \| \addf{k} \|_\infty \rho^{|k - m - 1| - 1} \right)^2. 
+\end{multline}
+Then, since 
+$$
+\sum_{m = 0}^{n - 1} \left( \sum_{k = 0}^{n - 1} \rho^{|k - m - 1| - 1} \right)^2 \leq \frac{4 n}{\rho^2 (1 - \rho)^2}, 
+$$
+we obtain the linear (in $n$) bound
+\begin{equation} \label{eq:linear:bound:first:bound}
+\sum_{m = 0}^{n - 1} \frac{\postmod{m} \adjfuncforward{m} \postmod{m} \ukmod{m}(\varphi_m [\retrokmodmodnorm_{m + 1, n} h_n ]^2)}{(\postmod{m} \ukmod{m, n - 1} \1_{\Xset^n})^2} \\ 
+\leq 
+\sup_{\ell \in \nset} \| \addf{\ell} \|_\infty^2 \sup_{\ell \in \nset} \| \adjfuncforward{\ell} \|_\infty \sup_{\ell \in \nset} \| \varphi_\ell \|_\infty  \frac{4 n}{\rho^2 (1 - \rho)^5 \udlow }. 
+\end{equation}
+
+We turn to the second term of \eqref{eq:non-recursive:as:var}. Reusing \eqref{eq:retrokmod:ratio:bd} yields 
+\begin{align} 
+\frac{\ukmod{\ell + 1, m}( \bkmod{m} \varphi_m [\ukmod{m + 1, n - 1} \1_{\Xset^n}]^2)}{(\postmod{\ell} \ukmod{\ell, m - 1} \1_{\Xset^m})(\postmod{m} \ukmod{m, n - 1} \1_{\Xset^n})^2} 
+&\leq \frac{\| \ukmod{\ell + 1, m - 1} \1_{\Xset^m} \|_\infty \|\ukmod{m + 1, n - 1} \1_{\Xset^n} \|_\infty^2 \|\varphi_m \|_\infty \udup}{(\postmod{\ell} \ukmod{\ell, m - 1} \1_{\Xset^m})(\postmod{m} \ukmod{m, n - 1} \1_{\Xset^n})^2} \nonumber \\ 
+&\leq \frac{1}{(1 - \rho)^4 \udlow^2} 
+\|\varphi_m \|_\infty. \label{eq:linear:bound:second:bound}
+\end{align}
+By \eqref{eq:forward:smoothing} it holds that  
+\begin{align*}
+\lefteqn{\tstatmod{\ell} h_{\ell}(x_\ell) + \addf{\ell}(x_\ell, x_{\ell + 1}) - \tstatmod{\ell + 1} h_{\ell +1}(x_{\ell + 1})} \hspace{10mm} \\ 
+&= \tstatmod{\ell} h_\ell(x_\ell) - \bkmod{\ell}\tstatmod{\ell} h_\ell(x_{\ell + 1}) + \addf{\ell}(x_\ell, x_{\ell + 1}) - \bkmod{\ell} \addf{\ell}(x_{\ell + 1}) \\
+&= \sum_{k = 0}^{\ell - 1} \left( \retrokmodmod_{\ell, \ell} \addf[\ell]{k}(x_\ell) - \bkmod{\ell} \retrokmodmod_{\ell, \ell} \addf[\ell]{k}(x_{\ell + 1}) \right) + \addf{\ell}(x_\ell, x_{\ell + 1}) - \bkmod{\ell} \addf{\ell}(x_{\ell + 1}), 
+\end{align*}
+and applying Lemma~\ref{lem:geo:bound} (with $\lambda = \delta_{x_\ell}$ and $\lambda' = \bkmod{\ell}(x_{\ell + 1}, \cdot)$) to each term in the sum yields the bound 
+\begin{equation} \label{eq:linear:bound:third:bound}
+\| \tstatmod{\ell} h_{\ell} + \addf{\ell} - \tstatmod{\ell + 1} h_{\ell +1} \|_\infty \leq \left( \frac{1}{1 - \rho} + 2 \right) \sup_{\ell \in \nset} \|\addf{\ell} \|_\infty. 
+\end{equation}
+By combining \eqref{eq:linear:bound:second:bound} and \eqref{eq:linear:bound:third:bound} we obtain 
+\begin{multline} 
+ \sum_{m = 0}^{n - 1} \sum_{\ell = 0}^m \frac{\postmod{m} \adjfuncforward{m} \postmod{\ell} \ukmod{\ell} \{\bkmod{\ell}(\tstatmod{\ell} h_{\ell} + \addf{\ell} - \tstatmod{\ell + 1} h_{\ell +1})^2 \ukmod{\ell + 1, m}( \bkmod{m} \varphi_m [\ukmod{m + 1, n - 1} \1_{\Xset^n}]^2
+)\}}{\K^{m - \ell + 1} (\postmod{\ell} \ukmod{\ell, m - 1} \1_{\Xset^m})(\postmod{m} \ukmod{m, n - 1} \1_{\Xset^n})^2} \\
+\leq \frac{1}{(1 - \rho)^4 \udlow^2}  \left( \frac{1}{1 - \rho} + 2 \right)^2 \sup_{\ell \in \nset} \| \addf{\ell} \|_\infty^2 \sup_{\ell \in \nset} \| \adjfuncforward{\ell} \|_\infty \sup_{\ell \in \nset} \| \varphi_\ell \|_\infty \sum_{m = 0}^{n - 1} \sum_{\ell = 0}^m \K^{\ell - (m + 1)}. 
+\end{multline}
+Finally, since, for $\K \geq 2$, 
+$$
+\lim_{m \to \infty} \sum_{\ell = 0}^m \K^{\ell - (m + 1)} = \frac{1}{\K - 1}, 
+$$
+taking the Ces\'{a}ro mean provides  
+\begin{multline} \label{eq:eq:linear:bound:fourth:bound}
+\limsup_{n \to \infty} \frac{1}{n}  \sum_{m = 0}^{n - 1} \sum_{\ell = 0}^m \frac{\postmod{m} \adjfuncforward{m} \postmod{\ell} \ukmod{\ell} \{\bkmod{\ell}(\tstatmod{\ell} h_{\ell} + \addf{\ell} - \tstatmod{\ell + 1} h_{\ell +1})^2 \ukmod{\ell + 1, m}( \bkmod{m} \varphi_m [\ukmod{m + 1, n - 1} \1_{\Xset^n}]^2
+)\}}{\K^{m - \ell + 1} (\postmod{\ell} \ukmod{\ell, m - 1} \1_{\Xset^m})(\postmod{m} \ukmod{m, n - 1} \1_{\Xset^n})^2} \\ 
+\leq \frac{1}{(\K - 1) (1 - \rho)^4 \udlow^2}  \left( \frac{1}{1 - \rho} + 2 \right)^2 \sup_{\ell \in \nset} \| \addf{\ell} \|_\infty^2 \sup_{\ell \in \nset} \| \adjfuncforward{\ell} \|_\infty \sup_{\ell \in \nset} \| \varphi_\ell \|_\infty. 
+\end{multline}
+Finally, we complete the proof by combining \eqref{eq:linear:bound:first:bound} and \eqref{eq:eq:linear:bound:fourth:bound}. 
+\end{proof}
+
+\begin{proof}[Proof of Corollary~\ref{cor:variance:bound}]
+First, note that by \eqref{eq:retrokmodmodnorm:bound}, 
+$$
+\|\retrokmodmodnorm_{0, n} h_n \|_\infty \leq \| \ukmod{0, n - 1} \1_{\Xset^n} \|_\infty \sup_{\ell \in \nset} \|\addf{\ell} \|_\infty  \frac{1}{\rho(1 - \rho)}. 
+$$
+Moreover, since for all $x_0 \in \Xset_0$, 
+\begin{equation} \label{eq:ukmod:zero:upper:lower:bound}
+\udlow \mu_1 \ukmod{1, n - 1} \1_{\Xset^n} \leq \ukmod{0, n - 1} \1_{\Xset^n}(x_0) \leq \udup \mu_1 \ukmod{1, n - 1} \1_{\Xset^n}, 
+\end{equation}
+it holds that 
+\begin{equation}\label{eq:bd:inital:term}
+\frac{\|\retrokmodmodnorm_{0, n} h_n \|_\infty^2}{(\chi \ukmod{0, n - 1} \1_{\Xset^n})^2} \leq \sup_{\ell \in \nset} \|\addf{\ell} \|_\infty^2  \frac{1}{\rho^2(1 - \rho)^4 (\chi \1_{\Xset_0})^2}. 
+\end{equation}
+The desired bound is now completed by applying Theorem~\ref{thm:variance:bound} and \eqref{eq:bd:inital:term} to the two first and the last terms of $\sigma_n^2(h_n)$, respectively.
+\end{proof}
+
+\begin{proof}[Proof of Proposition~\ref{prop:variance:bound:filter}]
+The result follows straightforwardly from the bound \eqref{eq:first:bound:first:term}; indeed, as the mapping $\Xset^n \ni x_{0:n} \mapsto f(x_n)$ belongs to $\bmaf{\Xfd^n}$, \eqref{eq:first:bound:first:term} implies that 
+\begin{multline*}
+\sum_{m = 0}^{n - 1} \frac{\postmod{m} \adjfuncforward{m} \postmod{m} \ukmod{m}(\varphi_m [\ukmod{m + 1} \cdots \ukmod{n - 1} (f - \postmod{n} f)
+]^2)}{(\postmod{m} \ukmod{m} \cdots \ukmod{n - 1} \1_{\Xset_n})^2} \\ 
+\leq \sup_{\ell \in \nset} \| \adjfuncforward{\ell} \|_\infty \sup_{\ell \in \nset} \| \varphi_\ell \|_\infty \|f \|_\infty^2 \frac{\udup^3}{\udlow^4} \rho^{-2}
+\sum_{m = 0}^{n - 1} \rho^{2 |n - m - 2|},  
+\end{multline*}
+where the sum on the right-hand side can be bounded by $1 / (1 - \rho^2) + \rho^2$. In addition, by \eqref{eq:retrokmodmodnorm:bound}, 
+$$
+\| \ukmod{0} \cdots \ukmod{n - 1} (f - \postmod{n} f) \|_\infty \leq \| \ukmod{0} \cdots \ukmod{n - 1} \1_{\Xset_n} \|_\infty \|f \|_\infty \rho^{n - 2}, 
+$$
+and reusing \eqref{eq:ukmod:zero:upper:lower:bound} yields 
+$$
+\frac{\| \ukmod{0} \cdots \ukmod{n - 1} (f - \postmod{n} f) \|_\infty^2}{(\chi \ukmod{0} \cdots \ukmod{n - 1} \1_{\Xset_n})^2} \leq \| f \|_\infty^2 \frac{\rho^{2n}}{\rho^4(1 - \rho)^2 (\chi \1_{\Xset_0})^2}. 
+$$
+The proof is completed by combining these bounds. 
+\end{proof}

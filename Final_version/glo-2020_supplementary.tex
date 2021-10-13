@@ -1,0 +1,151 @@
+\documentclass[bj]{imsart}
+%\documentclass[preprint]{imsart}
+
+
+
+%% Packages
+\RequirePackage{amsthm,amsmath,amsfonts,amssymb}
+\RequirePackage[numbers]{natbib}
+\RequirePackage[colorlinks,citecolor=blue,urlcolor=blue]{hyperref}
+\RequirePackage{graphicx}
+
+
+
+
+\usepackage[linesnumbered,vlined]{algorithm2e}
+\usepackage{bbm}
+\usepackage{caption}
+\usepackage{color}
+\usepackage{enumitem}
+%\usepackage{graphicx}
+\usepackage{ifthen}
+\usepackage{mathtools}  
+%\usepackage{mnsymbol}
+\usepackage{stmaryrd}
+\usepackage{subcaption}
+\usepackage{tikz}
+\usetikzlibrary{fit,positioning}
+\usepackage{xargs}
+
+\usepackage{xr}
+\externaldocument{glo-2020}
+
+
+\startlocaldefs
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                                          %%
+%% Uncomment next line to change            %%
+%% the type of equation numbering           %%
+%%                                          %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\numberwithin{equation}{section}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                                          %%
+%% For Axiom, Claim, Corollary, Hypothezis, %%
+%% Lemma, Theorem, Proposition              %%
+%% use \theoremstyle{plain}                 %%
+%%                                          %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\theoremstyle{plain}
+\newtheorem{axiom}{Axiom}
+\newtheorem{claim}[axiom]{Claim}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                                          %%
+%% For Assumption, Definition, Example,     %%
+%% Notation, Property, Remark, Fact         %%
+%% use \theoremstyle{remark}                %%
+%%                                          %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\theoremstyle{remark}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}{Example}
+\newtheorem*{fact}{Fact}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Please put your definitions here:        %%
+
+\include{glo-2020-def}
+\newcommand{\ourlongtitle}{A pseudo-marginal sequential Monte Carlo online smoothing algorithm}
+\newcommand{\ourshorttitle}{A pseudo-marginal SMC online smoothing algorithm}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\endlocaldefs
+
+\begin{document}
+
+
+\begin{frontmatter}
+\title{Supplement to `\ourlongtitle'}
+\runtitle{Supplement to `\ourshorttitle'}
+
+\begin{aug}
+\author[A]{\fnms{Pierre} \snm{Gloaguen}\ead[label=e1]{pierre.gloaguem@agroparistech.fr}},
+\author[B]{\fnms{Sylvain} \snm{Le Corff}\ead[label=e2]{sylvain-lecorff@telecom-sudparis.eu}}
+\and
+\author[C]{\fnms{Jimmy} \snm{Olsson}\ead[label=e3]{jimmyol@kth.se}}
+%%%%%%%%%%
+%% Addresses                                
+%%%%%%%%%%
+\address[A]{AgroParisTech, Paris, France.
+\printead{e1}}
+
+\address[B]{T\'el\'ecom SudParis, Paris, France.
+\printead{e2}}
+
+\address[C]{KTH Royal Institute of Technology, Stockholm, Sweden. 
+\printead{e3}}
+
+\end{aug}
+
+\begin{abstract}
+We provide the proofs of, in order, Lemma~\ref{lem:reversibility}, Theorem~\ref{cor:hoeffding:tau:marginal}, Theorem~\ref{cor:clt:pseudo:marginal:paris}, Theorem~\ref{thm:bias:bound}, Theorem~\ref{thm:variance:bound}, Corollary~\ref{cor:variance:bound}, and Proposition~\ref{prop:variance:bound:filter} in  [P.~Gloaguen, S.~Le Corff and J.~Olsson. \ourlongtitle. Submitted.]. 
+\end{abstract}
+
+\begin{keyword}
+\kwd{Central limit theorem}
+\kwd{exponential concentration}
+\kwd{partially observed diffusions}
+\kwd{particle smoothing}
+\kwd{pseudo-marginal methods}
+\kwd{sequential Monte Carlo methods}
+\end{keyword}
+
+\end{frontmatter}
+
+\begin{appendix}
+%%% Proof of backward decomposition 
+
+\input{glo-2020-proof-bwd-decomp}
+
+%%% Proof of particle asymptotics
+
+\input{glo-2020-proof-asymp}
+
+%%% Proof of bias bounds 
+
+\section{Proof of Theorem~\ref{thm:bias:bound}}
+\label{sec:proofs}
+\input{glo-2020-proofs}
+
+\section{Proofs of Theorem~\ref{thm:variance:bound}, Corollary~\ref{cor:variance:bound}, and Proposition~\ref{prop:variance:bound:filter}}
+\label{sec:variance:bounds}
+\input{glo-2020-proof-stability}
+
+\section{A technical lemma}
+\label{sec:tech:results}
+\input{glo-2020-tech-results}
+\end{appendix}
+
+\bibliographystyle{plain}
+\bibliography{glo-2020}
+
+
+\end{document}
+
+

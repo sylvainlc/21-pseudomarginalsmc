@@ -1,0 +1,32 @@
+\section{Proof of Lemma~\ref{lem:reversibility}}
+\label{sec:proof:lem:reversibility}
+
+To show (i), write, using the definition \eqref{eq:def:backward:kernel}, the right-hand side as 
+\begin{align*}
+\lefteqn{\iint \post{n} \uk{n}(\rmd x_{n + 1}) \, \bkw{n}(x_{n + 1}, \rmd x_n) \, h(x_n, x_{n + 1})} \hspace{20mm} \\
+&= \iint \post{n}[\ud{n}(\cdot, x_{n + 1})] \, \mu_{n + 1}(\rmd x_{n + 1}) \frac{\post{n}(\rmd x_n) \ud{n}(x_n, x_{n + 1})}{\post{n}[\ud{n}(\cdot, x_{n + 1})]} \, h(x_n, x_{n + 1}) \\
+&= \iint \post{n}(\rmd x_n) \, \uk{n}(x_n, \rmd x_{n + 1}) \, h(x_n, x_{n + 1}), 
+\end{align*}
+which was to be established. 
+
+The statement (ii) is shown by induction. Thus, assume that the claim holds true for $n$, pick arbitrarily $h \in \bmf{\Xfd^{n + 1}}$, and write, using the induction hypothesis, 
+\begin{align*}
+\post{0:n} \uk{n, n} h &= \iint \post{n}(\rmd x_n) \, \tstat{n}(x_n, \rmd x_{0:n - 1}) \, \uk{n}(x_n, \rmd x_{n + 1}) \, h(x_{0:n + 1}) \\
+&= \iint \post{n}(\rmd x_n) \, \uk{n}(x_n, \rmd x_{n + 1}) \, \bar{h}(x_n, x_{n + 1}), 
+\end{align*}
+where 
+$$
+\bar{h}(x_n, x_{n + 1}) \eqdef \int \tstat{n}(x_n, \rmd x_{0:n - 1}) h(x_{0:n + 1}). 
+$$
+Now, since $\bkw{n} \bar{h}(x_{n + 1}) = \tstat{n + 1} h(x_{n + 1})$, (i) yields
+\begin{align*} 
+\post{0:n} \uk{n, n} h 
+&= \iint \post{n} \uk{n}(\rmd x_{n + 1}) \, \bkw{n}(x_{n + 1}, \rmd x_n) \, \bar{h}(x_n, x_{n + 1}) \\
+&= \int \post{n} \uk{n}(\rmd x_{n + 1}) \, \tstat{n + 1} h(x_{n + 1}). 
+\end{align*}
+Thus, we obtain, by applying \eqref{eq:recursion:FK:path} and \eqref{eq:recursion:FK:marg},  
+$$
+\post{0:n + 1} h = \frac{\post{0:n} \uk{n, n} h}{\post{0:n} \uk{n, n} \1_{\Xset^{n+1}}} 
+= \int \frac{\post{n} \uk{n}(\rmd x_{n + 1})}{\post{n} \uk{n} \1_{\Xset_{n + 1}}} \tstat{n + 1} h(x_{n + 1}) = \post{n + 1} \tstat{n + 1} h. 
+$$
+Finally, we note that the base case $n = 1$ follows straightforwardly by combining (i) and \eqref{eq:recursion:FK:marg}. 

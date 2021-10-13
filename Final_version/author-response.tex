@@ -1,0 +1,55 @@
+\documentclass[11pt]{amsart}
+\usepackage{geometry}                % See geometry.pdf to learn the layout options. There are lots.
+\geometry{letterpaper}                   % ... or a4paper or a5paper or ... 
+%\geometry{landscape}                % Activate for for rotated page geometry
+%\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{epstopdf}
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+
+\title[Author response on ``A pseudo-marginal \ldots'']{Author response to reviewer comments on ``A pseudo-marginal sequential Monte Carlo online smoothing algorithm''}
+
+\author{Pierre Gloaguen, Sylvain Le Corff, and Jimmy Olsson}
+%\date{}                                           % Activate to display a given date or no date
+
+\begin{document}
+\maketitle
+%\section{}
+%\subsection{}
+
+We would like to thank the reviewers and the associate editor for their attentive reading of our work, the constructive feedback, and their appreciation of the paper. We are also grateful for the fast handling of the manuscript. While the second reviewer does not raise any particular issues with the paper, we have treated carefully all the comments of the first reviewer. All the minor errors and typos listed by the reviewer have been corrected as suggested and detailed point-to-point responses to some selected comments follows below (where the reviewer's comments are written in italics).
+
+\begin{itemize}
+\item {\em ``It might have made the paper less scary and dry to read to first provide standard setups (along the lines of what is at the top of p.~2), then proceed to the objective (formula (1.2)) and only then supplement all the measure-theoretic setup, e.g. as part of Section~2. This would also have yielded the advantage of collecting mathematical notation at the start of Section 2 (Is a collection of common notation in tabular form allowed in Bernoulli? This would be a friendly service to the reader.) rather than scattering it over the start of Section~1 and Section~2.''} \medskip
+
+\textbf{Author response:} We thank the referee for this sensible suggestion, which we have implemented in the revised version. In the new version, we introduce the additive smoothing objective (Equation~(1.2)) first after the standard setups (Feynman-Kac path models and hidden Markov models) for better clarity. Collecting, as the reviewer suggests, notation in tabular form would surely be of help to the reader; however, we are afraid that this is not possible without violating Bernoulli's page limit (28 pages, which we already touch).\medskip 
+
+\item {\em ``p.7 (2.10) and elsewhere uses rectangular brackets as in $\phi_m[\ell_m(\cdot,x_{m+1})]$ which I think is meant to denote $\int \ell_m(x_m,x_{m+1})\phi_m(dx_m)$. This notation has not been introduced. The `Preliminaries' at the top of p.~4 have $\mu h$ for the integral of a function $h$ against a measure $\mu$ which would suggest $\phi_m \ell_m(\cdot, x_{m+1})$. Since the rectangular brackets are used in this sense at many points in the paper, perhaps this notation should be added to the preliminaries.''} \medskip
+
+\textbf{Author response:} We agree perfectly with the referee, and have now introduced carefully the rectangular bracket notation to the beginning of Section~2. \medskip
+
+\item {\em ``p.7 Just before 2.2.2, it would be nice to comment on where one might get suitable adjustment weights $\vartheta_n$ from. How are these to be chosen or tuned?''} \medskip
+
+\textbf{Author response:} In order to shed more light on the role and design of the adjustment weights we have now added a reference to the original article [32] by Pitt and Shepard as well as the work [9] by Cornebise \emph{et al.}, who derive optimal (in the Kullback-Leibler sense) adjustment weight functions. The new passage reads: ``Adjustment multiplier weights were introduced in [32] with the aim to robustify particle filtering estimates in nonlinear state-space HMMs using data-driven proposal distributions. In [9] it is shown that the adjustment-weight function minimising the Kullback--Leibler divergence between $\pi_n$ and $\rho_n$ is, for any $\mathbf{P}_n$, given by the---typically intractable---mapping $x \mapsto \mathbf{L}_n(x, \mathsf{X}_{n + 1})$; thus, $\vartheta_n$ should be chosen as some approximation of this function, which in the HMM context coincides with the predictive likelihood of the state at time $n$ given the new observation $y_{n + 1}$.'' \medskip
+
+
+\item {\em p. 15-16: for the presentation of Example 2, I feel it would be better to describe the problem fully before giving Durham and Gallant's solution.} \medskip 
+
+\textbf{Author response:} We have experimented with different ways of presenting Example~2, but without finding a more effective presentation than the current one, in which the state transition density, its general intractability, and the Durham--Gallant estimator are discussed in close connection before the different emission models are introduced. Thus, we have finally decided to leave the example unmodified. Still, if the reviewer has concrete ideas about how to change the logical flow of the example, we are ready to follow these recommendations. \medskip
+
+%After having elaborated with some different alternatives to the presentation of Example~2, we have come to the conclusion that the original structure, in which  is the most effective. laded In Example~2, we thought it would be better to first fully describe the transition density estimator of the process defined by (3.8) before discussing several applications depending on the chosen model for the observation process. \medskip
+
+
+%\textbf{Author response:} In Example~2, we thought it would be better to first fully describe the transition density estimator of the process defined by (3.8) before discussing several applications depending on the chosen model for the observation process. \medskip
+
+\item {\em p.29 Appendix A in the supplement has $\phi_n(dx_n)[\ell(\cdot,x_{n+1})]$  in the numerator that arises from $B_n(x_{n+1},dx_n)$. I think this should read $\phi_n(dx_n)\ell(x_n,x_{n+1})$ instead?} \medskip
+
+\textbf{Author response:} The reviewer is absolutely right; we have now corrected this mistake. \medskip
+
+\item {\em p.30 Appendix~A has $\phi_{0:n}L_{0,n}1_{\mathsf{X}^n}$  in the denominator for  $\phi_{0:n+1}h$ which I think should read  $\phi_{0:n}L_{0,n}1_{\mathsf{X}^{n+1}}$ as there is a dangling $dx_{n+1}$ otherwise.} \medskip 
+
+\textbf{Author response:} There was indeed a mistake in this identity; we thank the reviewer for pointing out the error, which is now corrected. 
+\end{itemize}
+
+\end{document}  

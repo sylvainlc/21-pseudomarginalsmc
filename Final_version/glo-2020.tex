@@ -1,0 +1,151 @@
+\documentclass[bj]{imsart}
+%\documentclass[preprint]{imsart}
+
+
+
+%% Packages
+\RequirePackage{amsthm,amsmath,amsfonts,amssymb}
+\RequirePackage[numbers]{natbib}
+\RequirePackage[colorlinks,citecolor=blue,urlcolor=blue]{hyperref}
+\RequirePackage{graphicx}
+
+
+
+
+\usepackage[linesnumbered,vlined]{algorithm2e}
+\usepackage{bbm}
+\usepackage{caption}
+\usepackage{color}
+\usepackage{enumitem}
+%\usepackage{graphicx}
+\usepackage{ifthen}
+\usepackage{mathtools}  
+%\usepackage{mnsymbol}
+\usepackage{stmaryrd}
+\usepackage{subcaption}
+\usepackage{tikz}
+\usetikzlibrary{fit,positioning}
+\usepackage{xargs}
+
+\usepackage{xr}
+\externaldocument{glo-2020_supplementary}
+
+\startlocaldefs
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                                          %%
+%% Uncomment next line to change            %%
+%% the type of equation numbering           %%
+%%                                          %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\numberwithin{equation}{section}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                                          %%
+%% For Axiom, Claim, Corollary, Hypothezis, %%
+%% Lemma, Theorem, Proposition              %%
+%% use \theoremstyle{plain}                 %%
+%%                                          %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\theoremstyle{plain}
+\newtheorem{axiom}{Axiom}
+\newtheorem{claim}[axiom]{Claim}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                                          %%
+%% For Assumption, Definition, Example,     %%
+%% Notation, Property, Remark, Fact         %%
+%% use \theoremstyle{remark}                %%
+%%                                          %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\theoremstyle{remark}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}{Example}
+\newtheorem*{fact}{Fact}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Please put your definitions here:        %%
+
+\include{glo-2020-def}
+\newcommand{\ourlongtitle}{A pseudo-marginal sequential Monte Carlo online smoothing algorithm}
+\newcommand{\ourshorttitle}{A pseudo-marginal SMC online smoothing algorithm}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\endlocaldefs
+
+\begin{document}
+
+\begin{frontmatter}
+\title{\ourlongtitle} %PaRIS samplers}
+%\title{A sample article title with some additional note\thanksref{t1}}
+\runtitle{\ourshorttitle} %PaRIS samplers}
+%\thankstext{t1}{Working title.}
+
+\begin{aug}
+\author[A]{\fnms{Pierre} \snm{Gloaguen}\ead[label=e1]{pierre.gloaguem@agroparistech.fr}},
+\author[B]{\fnms{Sylvain} \snm{Le Corff}\ead[label=e2]{sylvain\_lecorff@telecom-sudparis.eu}}
+\and
+\author[C]{\fnms{Jimmy} \snm{Olsson}\ead[label=e3]{jimmyol@kth.se}}
+%%%%%%%%%%
+%% Addresses                            
+%%%%%%%%%%
+\address[A]{AgroParisTech, Paris, France.
+\printead{e1}}
+
+\address[B]{T\'el\'ecom SudParis, Paris, France.
+\printead{e2}}
+
+\address[C]{KTH Royal Institute of Technology, Stockholm, Sweden. 
+\printead{e3}}
+
+\end{aug}
+
+\begin{abstract}
+We consider online computation of expectations of additive state functionals under general path probability measures proportional to products of unnormalised transition densities. These transition densities are assumed to be intractable but possible to estimate, with or without bias. Using pseudo-marginalisation techniques we are able to extend the particle-based, rapid incremental smoother (PaRIS) algorithm proposed in [J.~Olsson and J.~Westerborn. Efficient particle-based online smoothing in general hidden Markov models: The {PaRIS} algorithm. {\em Bernoulli}, 23(3):1951--1996, 2017] to this setting. The resulting algorithm, which has a linear complexity in the number of particles and constant memory requirements, applies to a wide range of challenging path-space Monte Carlo problems, including smoothing in partially observed diffusion processes and models with intractable likelihood. The algorithm is furnished with several theoretical results, including a central limit theorem, establishing its convergence and numerical stability. Moreover, under strong mixing assumptions we establish a novel $\mathcal{O}(n \precpar)$ bound on the asymptotic bias of the algorithm, where $n$ is the path length and $\precpar$ controls the bias of the density estimators. 
+\end{abstract}
+
+\begin{keyword}
+\kwd{central limit theorem}
+\kwd{exponential concentration}
+\kwd{partially observed diffusions}
+\kwd{particle smoothing}
+\kwd{pseudo-marginal methods}
+\kwd{sequential Monte Carlo methods}
+\end{keyword}
+
+\end{frontmatter}
+
+\section{Introduction}
+\label{sec:introduction}
+\input{glo-2020-intro}
+
+\section{Preliminaries}
+\label{sec:preliminaries}
+\input{glo-2020-prel}
+
+\section{Pseudo-marginal PaRIS algorithms}
+\label{sec:pseudo:marginal:PaRIS}
+\input{glo-2020-pm-PaRIS}
+
+\section{Theoretical results}
+\label{sec:theoretical:results}
+\input{glo-2020-theor-results}
+
+\section{A numerical example}
+\label{sec:numerical:results}
+\input{glo-2020-numerics}
+
+
+\section*{Acknowledgements}
+
+The research of J.~Olsson is supported by the Swedish Research Council, Grant~2018-05230.  
+
+\bibliographystyle{plain}
+\bibliography{glo-2020}
+
+\end{document}
+
+

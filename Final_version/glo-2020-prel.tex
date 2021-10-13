@@ -1,0 +1,203 @@
+We first introduce some general notation. 
+For any $(m, n) \in \zset^2$ such that $m \leq n$, we let $\intvect{m}{n}$ denote the set $\{m, \ldots, n\}$. For arbitrary elements $a_\ell$, $\ell \in \intvect{m}{n}$, we denote vectors by $a_{m:n} = (a_m, \ldots, a_n)$. The sets of measures, probability measures, and real-valued bounded measurable functions on some given state-space $(\mathsf{X}, \mathcal{X})$ are denoted by $\meas{\mathcal{X}}$, $\probmeas{\mathcal{X}}$, and $\bmf{\mathcal{X}}$, respectively. For any measure $\mu$ and measurable function $h$ we let $\mu h \eqdef \int h(x) \, \mu(\rmd x)$ denote the Lebesgue integral of $h$ with respect to $\mu$ whenever this is well defined. When $h$ depends on several variables we may write $\mu[h(\cdot,y)]\eqdef \int h(x,y) \, \mu(\rmd x)$ to avoid any confusion. We will write $\mu^2 f = (\mu f)^2$ (whereas $\mu f^2 = \mu(f^2)$). For any finite set $S$, $\powerset{S}$ denotes the power set of $S$. The following kernel notation will be used repeatedly in the paper. Let $(\mathsf{X}, \mathcal{X})$ and $(\mathsf{Y}, \mathcal{Y})$ be general state spaces and $\kernel{K} : \mathsf{X} \times \mathcal{Y} \to \rsetnn$ some transition kernel. Then $\kernel{K}$ induces two operators, one acting on measurable functions and the other on measures. More precisely, for any $h \in \bmf{\mathcal{X} \tensprod \mathcal{Y}}$ and $\mu \in \meas{\mathcal{X}}$, let 
+$$
+\kernel{K} h : \mathsf{X} \ni x \mapsto \int h(x, y) \, \kernel{K}(x, \rmd y), \quad \mu \kernel{K} : \mathcal{Y} \ni A \mapsto \int \mu(\rmd x) \, \kernel{K}(x, A). 
+$$ 
+Moreover, let $(\mathsf{Z}, \mathcal{Z})$ be a third state space and $\kernel{K}' : \mathsf{Y} \times \mathcal{Z} \to \rsetnn$ another kernel; then the product of $\kernel{K}$ and $\kernel{K}'$ is the kernel defined by 
+$$
+\kernel{K} \kernel{K}' : (x, A) \ni \mathsf{X} \times \mathcal{Z} \mapsto \int \kernel{K}(x, \rmd y) \, \kernel{K}'(y, A). 
+$$    
+
+\subsection{Model and aim}
+\label{sec:model}
+
+With notations as in Section~\ref{sec:introduction}, define, for each $n \in \nset$ and $m \in \intvect{0}{n}$, the kernel 
+\begin{equation} \label{eq:def:uk:products}
+    \uk{m, n}(x_{0:m}', \rmd x_{0:n + 1}) \eqdef \delta_{x_{0:m}'}(\rmd x_{0:m}) \prod_{\ell = m}^n \uk{\ell}(x_\ell, \rmd x_{\ell + 1}) 
+\end{equation}
+on $\Xset^m \times \Xfd^{n + 1}$. In addition, let $\uk{n, n - 1} = \operatorname{id}$. Note that $\uk{n, n}$ is different from $\uk{n}$ in the sense that the former is defined on $\Xset^n \times \Xfd^{n + 1}$ whereas the latter is defined on $\Xset_n \times \Xfd_{n + 1}$. We will always assume that for all $n \in \nset$, $\chi \uk{0, n - 1} \1_{\Xset^n} = \chi \uk{0} \cdots \uk{n - 1} \1_{\Xset_n} > 0$. Since each mapping $\uk{m, n} \1_{\Xset^n}$ depends only on the last coordinate $x_m$, a version of this mapping with domain $\Xset_m$ is well defined; we will denote the latter by the same symbol and write $\uk{m, n} \1_{\Xset^n}(x_m)$, $x_m \in \Xset_m$, when needed. Using the previous notations, the path measures \eqref{eq:def:post} can be expressed as 
+\begin{equation}
+\label{eq:FK:path}
+    \post{0:n}(\rmd x_{0:n}) = \frac{\chi \uk{0, n - 1}(\rmd x_{0:n})}{\chi \uk{0, n - 1} \1_{\Xset^n}}, \quad n \in \nset. 
+\end{equation} 
+For each $n \in \nset$, let  
+$ 
+\post{n} : A \ni \Xfd_n \mapsto \post{0:n}(\Xset^{n - 1} \times A)
+$
+denote the marginal of $\post{0:n}$ with respect to the last component. In the case of state-space models, $\post{0:n}$ and $\post{n}$ are usually referred to as the \emph{joint-smoothing} and \emph{filter distribution at time $n$}, respectively; see Example~\ref{ex:state-space:models} for details. Note that the path- and marginal-measure flows can be expressed recursively as  
+\begin{equation} \label{eq:recursion:FK:path}
+    \post{0:n + 1}(\rmd x_{0:n + 1}) = \frac{\post{0:n} \uk{n, n}(\rmd x_{0:n + 1})}{\post{0:n} \uk{n, n} \1_{\Xset^{n + 1}}} = \frac{\post{0:n} \uk{n, n}(\rmd x_{0:n + 1})}{\post{n} \uk{n} \1_{\Xset_{n + 1}}}, \quad n \in \nset, 
+\end{equation}
+and 
+\begin{equation} \label{eq:recursion:FK:marg}
+    \post{n + 1}(\rmd x_{n + 1}) = \frac{\post{n} \uk{n}(\rmd x_{n + 1})}{\post{n} \uk{n} \1_{\Xset_{n + 1}}}, \quad n \in \nset, 
+\end{equation}
+respectively. Given some sequence $(\addf{n})_{n \in \nset}$ of functions $\addf{n} : \Xset_n \times \Xset_{n + 1} \to \rset$, our aim is, as declared in Section~\ref{sec:introduction}, the online approximation of $(\post{0:n} h_n)_{n \in \nset}$, where $h_n$ defined by \eqref{eq:add:func}. 
+
+\begin{remark} \label{we:vs:delmoral}
+    Note that our framework is equivalent to the Feynman-Kac models considered in \cite[Section~1.3]{delmoral:2004}, where it is assumed that each kernel $\uk{n}$ can be decomposed into a Markov transition kernel $\kernel{M}_n$ on $\Xset_n \times \Xfd_{n + 1}$ and a potential function $\md{n} \in \bmf{\Xfd_n}$ according to $\uk{n}(x_n, \rmd x_{n + 1}) = \md{n}(x_n) \, \kernel{M}(x_n, \rmd x_{n + 1})$. Indeed, as soon as $\uk{n}$ is bounded, such a decomposition is always possible by letting $\kernel{M}(x_n, \rmd x_{n + 1}) \eqdef \uk{n}(x_n, \rmd x_{n + 1}) / \uk{n}(x_n, \Xset_{n + 1})$ and $\md{n}(x_n) \eqdef \uk{n}(x_n, \Xset_{n + 1})$. However, in our case this potential function is, contrary to what is assumed in \cite{delmoral:2004}, generally intractable, since $\uk{n}(x_n, \Xset_{n + 1})$ is typically unknown for the models that we will consider. Moreover, as noted in \cite[Section~1.3]{delmoral:2004}, the path model $(\post{0:n})_{n \in \nset}$ and the marginal model $(\post{n})_{n \in \nset}$ have the same mathematical structure in the sense that the path model can be formulated as a marginal model evolving on the spaces $(\Xset_n', \Xfd_n')_{n \in \nset}$, where $\Xset_n' \eqdef \Xset^n$ and $\Xfd_n' \eqdef \Xfd^n$, according to the initial distribution $\chi \eqdef \chi'$ and the transition kernels $(\uk{n}')_{n \in \nset}$, where $\uk{n}' \eqdef \uk{n, n}$. Still, the kernels $(\uk{n}')_{n \in \nset}$ involve transitions according to Dirac measures, which makes the model formed by $\chi'$ and $(\uk{n}')_{n \in \nset}$ ill-suited for naive particle approximation; see Section~\ref{sec:SMC} for further discussion. 
+\end{remark}
+
+\begin{example}[state-space models]
+\label{ex:state-space:models}
+Let $(\Xset, \Xfd)$ and $(\Yset, \Yfd)$ be general state spaces and $(\hk_n)_{n \in \nset}$ and $(\mk_n)_{n \in \nset}$ sequences of Markov kernels on $\Xset \times \Xfd$ and $\Xset^2 \times \Yfd$, respectively. In addition, let $\chi$ be some probability measure on $\Xfd$. Consider a fully dominated model where all $\mk_n$ and $\hk_n$ have transition densities $\md{n}$ and $\hd{n}$ with respect to some reference measures $\nu$ and $\mu$ on $\Yfd$ and $\Xfd$, respectively. Let $\{X_0, (X_n, Y_n) : n \in \nsetpos\}$ be the canonical Markov chain induced by the initial distribution $\chi$ and the Markov transition kernel $\hk_n(x_n, \rmd x_{n + 1}) \, \mk_n(x_n, x_{n + 1}, \rmd y_{n + 1})$ (which has no dependence on the $y_n$ variable; the same dynamics hence applies to the first transition $X_0 \rightsquigarrow (X_1, Y_1)$) and denote by $\pP_\chi$ its law with corresponding expectation $\pE_\chi$. In this model, we assume that the \emph{state process} $(X_n)_{n \in \nset}$ is latent and only partially observed thought the \emph{observation process} $(Y_n)_{n \in \nsetpos}$. It can be shown that (i) the state process is itself a Markov chain with initial distribution $\chi$ and transition kernels $(\hk_n)_{n \in \nset}$ and (ii) conditionally on the state process, the observations are independent and such that the marginal distribution of $Y_n$ is given by $\mk_{n - 1}(X_{n - 1}, X_n, \cdot)$ for all $n$. In the case where $\mk_{n - 1}$ does not depend on $x_{n - 1}$, the model is a fully adapted general state-space HMM; see \cite[Section~2.2]{Cappe:2005:IHM:1088883}. In this setting, the joint-smoothing distribution at time $n \in \nset$ is, for a given record $y_{1:n} \in \Yset^n$ of observations, defined as the probability measure  
+\begin{equation}
+\label{eq:smooth}
+    \post{0:n} \langle y_{1:n} \rangle (\rmd x_{0:n}) \eqdef \llh{n}^{-1}(y_{1:n}) \chi(\rmd x_0) \prod_{m = 0}^{n - 1} \hk_m(x_m, \rmd x_{m + 1}) \, \md{m}(x_m, x_{m + 1}, y_{m + 1}), 
+\end{equation}
+on $\Xfd^n$, where   
+\begin{equation}
+    \label{eq:likelihood}
+    \llh{n}(y_{1:n}) \eqdef \idotsint \chi(\rmd x_0) \prod_{m = 0}^{n - 1} \hk_m(x_m, \rmd x_{m + 1}) \, \md{m}(x_m, x_{m + 1}; y_{m + 1})
+\end{equation}
+is the observed data likelihood. Along the lines of \cite[Proposition~3.1.4]{Cappe:2005:IHM:1088883} one may show that $\post{0:n} \langle Y_{1:n} \rangle$ is, $\pP_\chi$-a.s., the conditional distribution of $X_{0:n}$ given $Y_{1:n}$. The marginal  $\post{n} \langle y_{1:n} \rangle$ of the joint smoothing distribution with respect to its last component $x_n$ is referred to as the filtering distribution at time $n$. Consequently, by defining kernel densities $\ud{n}(x_n, x_{n + 1}) \eqdef \md{n}(x_n, x_{n + 1}, y_{n + 1}) \hd{n}(x_n, x_{n + 1})$ for all $n \in \nset$ (while keeping dependence on observations implicit) and letting $\uk{n}$ be the induced transition kernels, the joint-smoothing distributions may be expressed in the form \eqref{eq:FK:path}.
+\end{example}
+
+The measures \eqref{eq:FK:path} are generally intractable in two ways. First, in many applications the transition densities $(\ud{n})_{n \in \nset}$ cannot be evaluated pointwise. Returning to Example~\ref{ex:state-space:models} and the context of smoothing in state-space models, this is typically the case when the dynamics of the latent process is governed by a stochastic differential equation (see Example~\ref{eq:durham:gallant} below). Second, even in the case where these transition densities are evaluable, the normalising constant in \eqref{eq:FK:path} is generally intractable. Thus, in order to solve the smoothing problem in full generality, one needs to be able to handle this double intractability, which is the goal of the algorithm that we will develop next. We will proceed in two steps. In the next section, Section~\ref{sec:PaRIS}, we will solve the additive smoothing problem under the temporary assumption that the densities $(\ud{n})_{n \in \nset}$ are tractable; the resulting extension of the PaRIS proposed in  \cite{olsson:westerborn:2014b} to general models in the form \eqref{eq:def:post} and auxiliary particle filters is of independent interest. Then, in Section~\ref{sec:pseudo:marginal:PaRIS}, we abandon the temporary assumption of tractability and assume that the user has only possibly biased proxies of these densities at hand. 
+
+\subsection{The PaRIS}
+\label{sec:PaRIS}
+
+%%%%%%%
+%% The APF
+%%%%%%%
+
+\subsubsection{Auxiliary particle filters}
+\label{sec:SMC}
+
+Assume for a moment that each transition density $\ud{n}$ is available in a closed form. Then standard SMC methods (see \cite{chopin:papaspiliopoulos:2020} for a recent introduction) can be used to approximate the distribution flows $(\post{0:n})_{n \in \nset}$ and $(\post{n})_{n \in \nset}$ using Monte Carlo samples generated recursively by means of sequential importance sampling and resampling operations. In order to set notations, let us recall the most general class of such algorithms, the so-called auxiliary particle filters \cite{pitt:shephard:1999}. In the light of Remark~\ref{we:vs:delmoral} it is enough to consider particle approximation of the marginals $(\post{n})_{n \in \nset}$. We proceed recursively and assume that we, at time $n \in \nset$, have at hand a sample $(\epart{n}{i}, \ewght{n}{i})_{i = 1}^\N$ of $\Xset_n$-valued \emph{particles} (the $\epart{n}{i}$) and associated nonnegative importance weights (the $\ewght{n}{i}$) such that the self-normalised estimator $\post[\N]{n} h \eqdef \sumwght{n}^{-1} \sum_{i = 1}^\N \ewght{n}{i} h(\epart{n}{i})$, with $\sumwght{n} \eqdef \sum_{i = 1}^\N \ewght{n}{i}$, approximates $\post{n} h$ for every $\post{n}$-integrable function $h$. Then plugging $\post[\N]{n}$ into the recursion \eqref{eq:recursion:FK:marg} yields the approximation $\sum_{i = 1}^\N \pi_n(i, \rmd x)$ of $\post{n + 1}$, where 
+\begin{equation} \label{eq:def:partmixt}
+\partmixt_n(i, \rmd x) \propto \ewght{n}{i} \uk{n}(\epart{n}{i}, \rmd x)
+\end{equation}
+is a mixture probability distribution on $\powerset{\intvect{1}{\N}} \tensprod \Xfd_{n + 1}$. In order to form new particles approximating $\post{n + 1}$, we may draw, using importance sampling, pairs $(\ind{n + 1}{i}, \epart{n + 1}{i})_{i = 1}^\N$ of indices and particles from $\partmixt_n$ and discard the former. For this purpose, we introduce some instrumental mixture distribution 
+\begin{equation} \label{eq:cond:instrumental:mixture}
+\rho_n(i, \rmd x) \propto \ewght{n}{i} \adjfuncforward{n}(\epart{n}{i}) \, \prop{n}(\epart{n}{i}, \rmd x)
+\end{equation}
+on the same space, where $\adjfuncforward{n}$ is a real-valued positive \emph{adjustment-weight function} on $\Xset_n$ and $\prop{n}$ is a proposal kernel on $\Xset_n \times \Xfd_{n + 1}$ such that $\uk{n}(x, \cdot) \ll \prop{n}(x, \cdot)$ for all $x \in \Xset_n$. 
+Adjustment multiplier weights were introduced in \cite{pitt:shephard:1999} with the aim to robustify particle filtering estimates in nonlinear state-space HMMs using data-driven proposal distributions. In \cite{cornebise:moulines:olsson:2008} it is shown that the adjustment-weight function minimising the Kullback--Leibler divergence between $\partmixt_n$ and $\rho_n$ is, for any $\prop{n}$, given by the---typically intractable---mapping $x \mapsto \uk{n}(x, \Xset_{n + 1})$; thus, $\adjfuncforward{n}$ should be chosen as some approximation of this function, which in the HMM context coincides with the predictive likelihood of the state at time $n$ given the new observation $y_{n + 1}$. We will always assume that $\prop{n}$ has a transition density $\propdens{n}$ with respect to $\mu_{n + 1}$. A draw $(\ind{n + 1}{i}, \epart{n + 1}{i})$ from $\rho_n$ is easily generated by first drawing $\ind{n + 1}{i}$ from the categorical distribution induced by the adjusted importance weights and then drawing $\epart{n + 1}{i}$ by randomly moving the selected ancestor $\epart{n}{{\ind{n + 1}{i}}}$ according to the proposal kernel. These steps are often referred to as \emph{selection} and \emph{mutation}, respectively. Finally, each draw $\epart{n + 1}{i}$ is assigned the updated importance weight $\ewght{n + 1}{i}$ proportional to $\rmd \partmixt_n / \rmd \rho_n (\ind{n + 1}{i}, \epart{n + 1}{i})$, and the estimator $\post[\N]{n + 1} h = \sumwght{n + 1}^{-1} \sum_{i = 1}^\N \ewght{n + 1}{i} h(\epart{n + 1}{i})$ approximates $\post{n + 1} h$ for every $\post{n + 1}$-integrable $h$. The full update, which we will refer to as \emph{forward sampling} and express in a short form as
+\begin{equation} \label{eq:forward:sampling}
+    (\epart{n + 1}{i}, \ewght{n + 1}{i})_{i = 1}^\N \sim \mathsf{FS}((\epart{n}{i}, \ewght{n}{i})_{i = 1}^\N),   
+\end{equation}
+is summarised in Algorithm~\ref{alg:ideal:SMC}.\footnote{Mathematically, the forward sampling operation defines a Markov transition kernel, which motivates the use of the symbol $\sim$ in \eqref{eq:forward:sampling}.} 
+
+\begin{algorithm}[h] 
+    \KwData{$(\epart{n}{i}, \ewght{n}{i})_{i = 1}^\N$}
+    \KwResult{$(\epart{n + 1}{i}, \ewght{n + 1}{i})_{i = 1}^\N$}
+    \For {$i = 1 \to \N$}{
+        draw $\ind{n + 1}{i} \sim \cat(\{ \adjfuncforward{n}(\epart{n}{j}) \ewght{n}{j} \}_{j = 1}^\N)$\;
+        draw $\epart{n + 1}{i} \sim \prop{n}(\epart{n}{{\ind{n + 1}{i}}}, \cdot)$\;
+        set $\ewght{n + 1}{i} \gets \frac{\ud{n}(\epart{n}{{\ind{n + 1}{i}}}, \epart{n + 1}{i})}{\adjfuncforward{n}(\epart{n}{{\ind{n + 1}{i}}}) \propdens{n}(\epart{n}{{\ind{n + 1}{i}}}, \epart{n + 1}{i})}$\;
+}
+\caption{Forward sampling, \textsf{FS}} \label{alg:ideal:SMC}
+\end{algorithm}
+
+With this terminology, the auxiliary particle filter consists of iterated forward sampling operations, and we will assume that the process is initialised by sampling independent particles $(\epart{0}{i})_{i = 1}^\N$ from some proposal $\init$ on $(\Xset_0, \Xfd_0)$ such that $\chi \ll \init$ and letting $\ewght{0}{i} \eqdef \rmd \chi / \rmd \init(\epart{0}{i})$ for all $i$. 
+
+Note that we may, in the light of Remark~\ref{we:vs:delmoral},  obtain particle approximations $(\epart{0:n}{i}, \ewght{n}{i})_{i = 1}^\N$, $n \in \nset$, of the smoothing distribution flow $(\post{0:n})_{n \in \nset}$ by applying the previous sampling scheme to the model formed by $\chi'$ and $(\uk{n}')_{n \in \nset}$. From an algorithmic point of view, it is easy to see that the only change needed is to insert, just after Line 3, the command $\epart{0:n + 1}{i} \gets (\epart{0:n}{\ind{n + 1}{i}}, \epart{n + 1}{i})$ storing the particle paths (in particular, the weight-updating step on Line~4 remains the same). Still, it is well known that repeated selection operations lead to coalescing paths $(\epart{0:n}{i})_{i = 1}^\N$, and as a consequence the variance of this naive smoothing estimator increases rapidly with $n$; indeed, in the case of additive state functionals, the growth in variance is typically quadratic in $n$ (see \cite{olsson:westerborn:2014b} for a discussion), which is unreasonable from a computational point of view. We will thus rely on more advanced, stochastically stable smoothing technology avoiding the particle-path degeneracy problem by taking advantage of the time-uniform convergence of the marginal samples $(\epart{n}{i})_{i = 1}^\N$. This will be discussed in the next section. 
+
+Finally, we note that the re-weighting operation on Line~4 in Algorithm~\ref{alg:ideal:SMC} requires the transition density $\ud{n}$ to be tractable, which is, as mentioned, not the case in general. We will return to the general case in Section~\ref{sec:pseudo:marginal:PaRIS}. 
+
+%%%%%%%%
+%% The PaRIS
+%%%%%%%%
+
+\subsubsection{Backward sampling} 
+\label{sec:BS}
+
+For each $m \in \nset$, define the  \emph{backward Markov kernel} 
+\begin{equation} \label{eq:def:backward:kernel}
+    \bkw{m}(x_{m + 1}, \rmd x_m) \eqdef \frac{\post{m}(\rmd x_m) \, \ud{m}(x_m, x_{m + 1})}{\post{m}[\ud{m}(\cdot, x_{m + 1})]}
+\end{equation}
+on $\Xset_{m + 1} \times \Xfd_m$. In addition, for each $n \in \nsetpos$, let the Markov kernel   
+\begin{equation} \label{eq:def:tstat}
+\tstat{n}(x_n, \rmd x_{0:n - 1}) \eqdef \prod_{m = 0}^{n - 1} \bkw{m}(x_{m + 1}, \rmd x_m)
+\end{equation}
+on $\Xset_n \times \Xfd^{n - 1}$ denote the joint law of the backward Markov chain induced by the kernels \eqref{eq:def:backward:kernel} when initialised at $x_n \in \Xset_n$. An important class of sequential Monte Carlo joint-smoothing methods \cite{doucet2000sequential,godsill:doucet:west:2004} is based on the following result. 
+\begin{lemma} 
+\label{lem:reversibility}
+\ 
+
+\begin{itemize} 
+\item[(i)]
+For all $n \in \nset$ and $h \in \bmf{\Xfd_n \tensprod \Xfd_{n + 1}}$, 
+\begin{equation} \label{eq:reversibility}
+\iint \post{n}(\rmd x_n) \, \uk{n}(x_n, \rmd x_{n + 1}) \, h(x_n, x_{n + 1}) = \iint \post{n} \uk{n}(\rmd x_{n + 1}) \, \bkw{n}(x_{n + 1}, \rmd x_n) \, h(x_n, x_{n + 1}). 
+\end{equation}
+\item[(ii)]
+For all $n \in \nsetpos$ and $h \in \bmf{\Xfd^n}$, 
+$
+\post{0:n} h = \post{n} \tstat{n} h. 
+$
+\end{itemize}
+\end{lemma}
+
+In the case of state-space models, the identity (ii) above is a well-known result typically referred to as the \emph{backward decomposition} of the joint-smoothing distribution; still, as far as known to the authors, it has never been established in the general setting considered in the present paper, and a proof of Lemma~\ref{lem:reversibility} is hence given in the supplement (Section~\ref{sec:proof:lem:reversibility}) for completeness. Importantly, as noted in \cite{cappe:2009}, the functions $(\tstat{n} h_n)_{n \in \nsetpos}$ can be expressed recursively through  
+\begin{equation} \label{eq:forward:smoothing}
+\tstat{n + 1} h_{n + 1}(x_{n + 1}) = \int (\tstat{n} h_n(x_n) + \addf{n}(x_n, x_{n + 1})) \, \bkw{n}(x_{n + 1}, \rmd x_n), \quad n \in \nset, 
+\end{equation}
+with, by convention, $\tstat{0} h_0 \equiv 0$. Here the backward kernel $\bkw{n}$ depends on the marginal $\post{n}$; thus, the recursion is driven by the marginal flow $(\post{n})_{n \in \nset}$, which may again be expressed recursively through \eqref{eq:recursion:FK:marg}. However, as these marginals are, as already mentioned, generally intractable, exact computations need typically to be replaced by approximations. The authors of \cite{delmoral:doucet:singh:2010} propose to approximate the values of each statistic $\tstat{n} h_n$ at a random, discrete support formed by particles. More precisely, assume again that the transition density $\ud{n}$ is tractable and, by induction, that at time step $n$ we have at hand a given particle sample $(\epart{n}{i}, \ewght{n}{i})_{i = 1}^\N$ and a set of statistics $(\tstat[i]{n})_{i = 1}^\N$ such that $\tstat[i]{n}$ is an approximation of $\tstat{n} h_n(\epart{n}{i})$. Then, in order to propagate the statistics $(\tstat[i]{n})_{i = 1}^\N$ forward, one updates, in a first substep, the particle sample $(\epart{n}{i}, \ewght{n}{i})_{i = 1}^\N$ recursively by forward sampling (Algorithm~\ref{alg:ideal:SMC}). After forward sampling, one replaces, in the definition \eqref{eq:def:backward:kernel} of $\bkw{n}$, $\post{n}$ by the corresponding particle approximation, yielding the updates 
+\begin{equation} \label{eq:tstat:FFBSm:update}
+\tstat[i]{n + 1} = \sum_{j = 1}^\N \trm{n}(i, j) (\tstat[j]{n} + \addf{n}(\epart{n}{j}, \epart{n + 1}{i})), \quad i \in \intvect{1}{\N}, 
+\end{equation} 
+where we have defined the Markov transition kernel  
+\begin{equation} \label{eq:def:trm}
+\trm{n}(i, j) \eqdef \frac{\ewght{n}{j} \ud{n}(\epart{n}{j}, \epart{n + 1}{i})}{\sum_{j' = 1}^\N \ewght{n}{j'} \ud{n}(\epart{n}{j'}, \epart{n + 1}{i})}
+\end{equation}
+on $\intvect{1}{\N} \times \powerset{\intvect{1}{\N}}$. Since computing each $\tstat[i]{n}$ according to \eqref{eq:tstat:FFBSm:update} has a linear computational complexity in the number $\N$ of particles, the overall complexity this approach is \emph{quadratic} in $\N$. In order to deal with this significant computational burden, the authors of \cite{olsson:westerborn:2014b} suggest replacing summation by additional Monte Carlo simulation. More precisely, by sampling, for each $i$, $\K \in \nsetpos$ independent indices $(J^{(i, j)})_{j = 1}^\M$ from $\trm{n}(i, \cdot)$ and replacing \eqref{eq:tstat:FFBSm:update} by  
+\begin{equation} \label{eq:PaRIS:update}
+\tstat[i]{n + 1} = \frac{1}{\K} \sum_{j = 1}^{\K} \left( \tstat[\bi{n + 1}{i}{j}]{n} + \addf{n}(\epart{n}{\bi{n + 1}{i}{j}}, \epart{n + 1}{i}) \right), \quad i \in \intvect{1}{\N}, 
+\end{equation}
+the computational complexity can, as we shall soon see, be reduced significantly. At each iteration, the self-normalised estimator $\sumwght{n}^{-1} \sum_{i = 1}^\N \ewght{n}{i} \tstat[i]{n}$ serves as an estimator of the quantity $\post{n} \tstat{n} h_n = \post{0:n} h_n$ of interest. This second operation, which we will refer to as \emph{backward sampling}, 
+$$
+    (\tstat[i]{n + 1})_{i = 1}^\N \sim \mathsf{BS}((\epart{n}{i}, \tstat[i]{n}, \ewght{n}{i})_{i = 1}^\N, (\epart{n + 1}{i})_{i = 1}^\N),  
+$$
+is summarised in Algorithm~\ref{alg:ideal:BS}. 
+
+\begin{algorithm}[h] 
+    \KwData{$(\epart{n}{i}, \tstat[i]{n}, \ewght{n}{i})_{i = 1}^\N$, $(\epart{n + 1}{i})_{i = 1}^\N$}
+    \KwResult{$(\tstat[i]{n + 1})_{i = 1}^\N$}
+    \For{$i = 1 \to \N$}{
+    \For{$j = 1 \to \K$}{
+    draw $\bi{n + 1}{i}{j} \sim \trm{n}(i, \cdot)$\;
+    }
+    set $\tstat[i]{n + 1} \gets \frac{1}{\K} \sum_{j = 1}^{\K} \left( \tstat[\bi{n + 1}{i}{j}]{n} + \addf{n}(\epart{n}{\bi{n + 1}{i}{j}}, \epart{n + 1}{i}) \right)$\;
+}
+\caption{Backward sampling, \textsf{BS}} \label{alg:ideal:BS}
+\end{algorithm}
+
+Let us examine the sampling step on Line~3 in Algorithm~\ref{alg:ideal:BS} more closely. 
+In order to keep the algorithmic complexity at a reasonable level, the computation of the normalising constant of $\trm{n}(i, \cdot)$, which consists of $\N$ terms, should be avoided; otherwise, the overall complexity remains quadratic in $\N$. This is possible using, \eg,   
+\begin{itemize}
+\item[--] \emph{rejection sampling}. This approach relies on the mild assumption that there exists some measurable function $c$ on $\Xset_{n + 1}$ such that $\ud{n}(x_n, x_{n + 1}) \leq c(x_{n + 1})$ for all $x_{n: n + 1} \in \Xset_n \times \Xset_{n + 1}$. Then, following \cite{douc:garivier:moulines:olsson:2010}, $\trm{n}(i, \cdot)$ can be sampled from by generating a candidate $J^\ast$ from $\cat(\{ \ewght{n}{\ell}\}_{\ell = 1}^\N)$ and accepting the same with probability 
+\begin{equation} \label{eq:std:acc:prob:backward:sampling}
+\accprob \eqdef \frac{\ud{n}(\epart{n}{J^\ast}, \epart{n + 1}{i})}{c(\epart{n + 1}{i})}. 
+\end{equation}
+The procedure is repeated until acceptance, conditionally on which $J^\ast$ is distributed according to $\trm{n}(i, \cdot)$. Since the $\cat(\{ \ewght{n}{\ell}\}_{\ell = 1}^\N)$ distribution is independent of $i$, this circumvents the need to compute a normalising sum for every $i$. The approach may significantly reduce the computational complexity; indeed, as shown in \cite[Proposition~2]{douc:garivier:moulines:olsson:2010}, the expected overall complexity of the algorithm is \emph{linear} in $\N$ under certain assumptions.   
+\item[--] \emph{MCMC methods}. Another possibility is to generate the variables $(\bi{n + 1}{i}{j})_{j = 1}^{\K}$ using the Metropolis-Hastings algorithm. For this purpose, let $\rho$ be some proposal transition density on $\intvect{1}{\N}^2$. Then proceeding recursively, given $\bi{n + 1}{i}{j} = J$, a candidate $J^\ast$ for $\bi{n + 1}{i}{j + 1}$ is sampled from the density $\rho(J, \cdot)$ and accepted with probability 
+$$
+\accprob[MH] \eqdef 1 \wedge\frac{\ewght{n}{J^\ast} \ud{n}(\epart{n}{J^\ast}, \epart{n + 1}{i}) \rho(J^\ast, J)}{\ewght{n}{J} \ud{n}(\epart{n}{J}, \epart{n + 1}{i}) \rho(J, J^\ast)}. 
+$$ 
+In the case of rejection, one sets $\bi{n + 1}{i}{j + 1} = J$. An appealing solution is to let $\rho$ take the form of an independent proposal given by the $\cat(\{ \ewght{n}{i} \}_{i = 1}^\N)$ distribution; in that case $\accprob[MH]$ simplifies to  
+\begin{equation} \label{eq:std:MH:prob:backward:sampling}
+\accprob[MH] = 1 \wedge \frac{\ud{n}(\epart{n}{J^\ast}, \epart{n + 1}{i})}{\ud{n}(\epart{n}{J}, \epart{n + 1}{i})}. 
+\end{equation}
+With this approach, the variables $(\bi{n + 1}{i}{j})_{j = 1}^{\K}$ are conditionally dependent; this can be counteracted by including only an $m$-skeleton of this sequence in the update \eqref{eq:PaRIS:update}. An important advantage of this approach over rejection sampling is that it does not require $\ud{n}$ to be dominated.  
+\end{itemize}
+
+Finally, combining the forward and backward sampling operations in accordance with Algorithm~\ref{alg:ideal:PaRIS} yields a generalisation of the PaRIS proposed in \cite{olsson:westerborn:2014b} to a general framework comprising Feynman-Kac models and auxiliary particle filters. 
+
+\begin{algorithm}[h] 
+    \KwData{$(\epart{n}{i}, \tstat[i]{n}, \ewght{n}{i})_{i = 1}^\N$}
+    \KwResult{$(\epart{n + 1}{i}, \tstat[i]{n + 1}, \ewght{n + 1}{i})_{i = 1}^\N$}
+    run $(\epart{n + 1}{i}, \ewght{n + 1}{i})_{i = 1}^\N \sim \mathsf{FS}((\epart{n}{i}, \ewght{n}{i})_{i = 1}^\N)$\;
+    run $(\tstat[i]{n + 1})_{i = 1}^\N \sim \mathsf{BS}((\epart{n}{i}, \tstat[i]{n}, \ewght{n}{i})_{i = 1}^\N, (\epart{n + 1}{i})_{i = 1}^\N)$\;
+    \medskip
+\caption{Full PaRIS update.} \label{alg:ideal:PaRIS}
+\end{algorithm}
+
+Algorithm~\ref{alg:ideal:PaRIS} is initialised by drawing $(\epart{0}{i})_{i = 1}^\N \sim \init^{\varotimes \N}$ and letting $\ewght{0}{i} = \rmd \chi / \rmd \init(\epart{0}{i})$ and $\tstat[i]{n} = 0$.  
+
+In this scheme, the sample size $\K$ of the backward sampling operation is an algorithmic parameter that has to be set by the user. As shown in Section~\ref{sec:theoretical:results}, the produced estimators are, for all $n \in \nset$, consistent and asymptotically normal for any fixed $\K$ larger than or equal to one. In addition, for any fixed $\K \geq 2$ the algorithm is stochastically stable with an $\mathcal{O}(n)$ variance, which is optimal; see \cite[Section~1]{olsson:westerborn:2014b} for a discussion. These results form a nontrivial extension of similar results obtained by \cite{olsson:westerborn:2014b} in the simpler setting of state-space models and bootstrap particle filters. 
+
+Finally, we remind the reader that we have here considered the idealised situation where the unnormalised transition densities $(\ud{n})_{n \in \nset}$ can be evaluated pointwise, which will generally not be the case for the applications we will consider. Thus, in the next section we will approach the more general case where these transition densities are intractable but may be estimated, and we will show how consistent, asymptotically normal, and stochastically stable estimators can be produced also in such a scenario by pseudo-marginalising the forward and backward sampling operations separately. 
+ 

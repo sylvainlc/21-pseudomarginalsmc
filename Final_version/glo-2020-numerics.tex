@@ -1,0 +1,39 @@
+
+An exhaustive numerical analysis of the methods and results presented above is beyond the scope of the present paper and is left as future research. Some numerical illustrations of Algorithm~\ref{alg:pm:PaRIS} in the special case of unbiased pseudo-marginalisation ($\precpar = 0$) via the exact algorithm (see Example~\ref{ex:exact:algorithm} and Example~\ref{ex:exact:algorithm:cont}) are provided in \cite{gloaguen2018online}. In this section, we focus on biased estimation ($\precpar > 0$) and illustrate the Lipschitz continuity established by Theorem \ref{thm:bias:bound} on the basis of a simple model that allows, as a comparison, a fully analytical solution to the additive smoothing problem.
+ 
+In the following we will consider an instance of Example~\ref{eq:durham:gallant}, Case~1, where the latent diffusion $(X_t)_{t > 0}$ is an \emph{Ornstein--Uhlenbeck process} \cite{uhlenbeck1930theory} on $\rset$ parameterised by $\mu(x) = - (x - \theta)$ and $\sigma(x) \equiv 1$,  where $\theta \in \mathbb{R}$ is a parameter.
+This process is assumed to be initialised according to the standard normal distribution. Furthermore, conditionally on $(X_t)_{t > 0}$, observations $(Y_n)_{n \in \nset}$ are generated as
+$$
+Y_n = (1 - \precpar) \varphi(X_n) + \eta_n, \quad n \in \nsetpos,
+$$
+where $t_n = \delta n$ for some given observation interval $\delta > 0$, $X_n = X_{t_n}$, $(\eta_n)_{n \in \nsetpos}$ are mutually independent and standard normally distributed noise variables, $\precpar \in \precparsp \eqdef [0, 1]$ is a parameter, and $\varphi$ is a bounded measurable function on $\rset$. We let $\hk_\delta$ denote the (Gaussian) Markov transition kernel of the time-discrete chain $(X_n)_{n \in \nset}$. 
+
+In this toy example, our aim is to illustrate Theorem~\ref{thm:bias:bound} by viewing models with $\precpar > 0$ as `skew' versions of a `true' model with $\precpar = 0$. Given simulated data $(y_n)_{n \in \nsetpos}$ from the true model, smoothed additive expectations under skew models with different $\precpar > 0$ will be compared to the same expectations under the true model. Note that the model specified above satisfies condition \hypref{assum:bias:bound}; indeed, denote by $\md{}^\precpar(x_n, y_n)$ the emission density of $Y_n$ given $X_n$, which is Gaussian with mean $(1 - \precpar) \varphi(x_n)$ and unit variance, and by $\md{}(x_n, y_n)$ the same density for the true model. Then by the mean-value theorem, for all $\precpar \in \precparsp$ and $(x_n, y_n) \in \rset^2$, 
+$$
+\left\vert \md{}^\precpar(x_n, y_n) - \md{}(x_n, y_n) \right \vert \leq \precpar \sup_{\precpar \in \precparsp} \left \vert\frac{\partial}{\partial \precpar} \md{}^\precpar(x_n, y_n) \right\vert 
+\leq \varepsilon \left( \vert \varphi(x_n) y_n - \varphi^2(x_n) \vert + \varphi^2(x_n) \right), 
+$$
+so that for all bounded measurable real-valued functions $h$,  $\vert \ukmod{n} h(x_n) - \uk{n} h(x_n) \vert \leq \precpar c(y_{n + 1}) \| h\|_\infty$, where $\ukmod{n}(x_n, \rmd x_{n + 1}) \eqdef \hk_\delta(x_n, \rmd x_{n + 1}) \md{}^\precpar(x_{n + 1}, y_{n + 1})$ and $c(y_{n + 1}) \eqdef \| \varphi \|_\infty |y_{n + 1}| + 2 \| \varphi \|_\infty^2$. Thus, \hypref{assum:bias:bound} holds true under the mild assumption that $\sup_{n \in \nsetpos} |y_n| < \infty$. 
+
+In this context, we conducted numerical experiments with $\theta = 5$ and $\varphi(x) = \min(\max(x, -10^5), 10^5)$. With this parametrisation, the model is, in practice, linear and Gaussian; thus, for linear additive state functionals in the form $h_n(x_{0:n}) = \sum_{k = 0}^n x_k$, a very good approximation of the exact solution $(\postmod{0:n} h_n)_{n \in \nset}$ to the optimal smoothing problem can, for the skewed models $(\precpar > 0)$ as well as the true model $(\precpar = 0)$, be obtained using Kalman recursions \cite{rauch1965maximum}. Figure~\ref{fig:varying:precpar} displays the discrepancy between $\postmod{0:n} h_n$ and $\post{0:n} h_n$ for varying $\precpar \in \{0, 0.05, 0.1, \ldots, 0.5 \}$ and a fixed $n = 50$ (the red line). Clearly, the bias increases---in perfect agreement with Theorem~\ref{thm:bias:bound}---at a rate that is at most linear in $\precpar$. In addition, Figure~\ref{fig:varying:precpar} shows similar biases (turquoise markers) obtained using the ideal PaRIS in Algorithm~\ref{alg:ideal:PaRIS} with $\N = 200$ particles and $\K = 2$ backward samples. In this algorithm, the particles were propagated using the \textit{optimal importance function} \cite{doucet2000sequential}, which can be computed explicitly in the linear Gaussian case. Here the PaRIS was re-run $60$ times for each value of $\precpar$. Note that the variance of the PaRIS estimates increases somewhat with $\precpar$, reflecting the fact that the proposal becomes less and less compatible with the data as the model gets increasingly skew. 
+
+In order to further illustrate the $\mathcal{O}(n \precpar)$ bound provided by Theorem~\ref{thm:bias:bound} as well as the stochastic stability of Algorithm~\ref{alg:ideal:PaRIS} established in Corollary~\ref{cor:variance:bound:ideal:PaRIS}, Kalman smoothing was conducted for $n \in \intvect{1}{50}$ on the basis of a skew model with fixed $\varepsilon = 0.1$. Figure~\ref{fig:varying:n} shows, as expected, a linear increase of the bias with $n$ (red line). In addition, displaying also the errors (green lines) of $60$ independent ideal PaRIS replicates (obtained under the skew model), the same plot confirms the stochastic stability of the ideal PaRIS algorithm, as the variance does not grow faster than linearly with $n$. Finally, for completeness Figure~\ref{fig:varying:n} reports similar errors (blue lines) when the ideal PaRIS evolves under the dynamics of the true model, and in this case the bias is negligible as expected.% (whereas the variance is still increasing linearly). 
+
+\begin{figure}
+    \centering
+    \begin{subfigure}[b]{0.43\textwidth}
+        \includegraphics[width=\textwidth]{%OL-version/figures/
+        vary_epsilon_fixed_n.png}
+        \caption{}
+        \label{fig:varying:precpar}
+    \end{subfigure}
+    ~ 
+    \begin{subfigure}[b]{0.43\textwidth}
+        \includegraphics[width=\textwidth]{%OL-version/figures/
+        fixed_epsilon_vary_n.png}
+        \caption{}
+        \label{fig:varying:n}
+    \end{subfigure}
+    \caption{(a) The red line is the deviation of $\postmod{0:n} h_n$ from $\post{0:n} h_n$ for varying $\precpar \in \{0, 0.05, 0.1, \ldots, 0.5 \}$ and fixed $n = 50$, computed by means of Kalman smoothing. Turquoise markers are similar errors obtained on the basis of $60$ replicates of the ideal PaRIS in Algorithm~\ref{alg:ideal:PaRIS} with $\N = 200$ particles and $\K = 2$ backward samples. (b) The red line is the same deviation for increasing $n \in \intvect{1}{50}$ and fixed $\precpar = 0.1$. Green and blue lines correspond to errors of $60$ independent ideal PaRIS replicates obtained under the skew and true models, respectively, for $\N = 200$ and $\K = 2$.} \label{fig}
+\end{figure}
+
